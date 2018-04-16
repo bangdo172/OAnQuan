@@ -11,4 +11,6 @@
 
 #include <stdio.h>
 
+void showGraphic();
+
 #endif /* showGraphic_hpp */
