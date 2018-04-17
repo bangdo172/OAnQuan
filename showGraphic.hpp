@@ -1,16 +1,15 @@
 //
 //  showGraphic.hpp
-//  oanquan
-//
-//  Created by Bang Do on 4/12/18.
-//  Copyright © 2018 Bang Do. All rights reserved.
-//
 
 #ifndef showGraphic_hpp
 #define showGraphic_hpp
 
 #include <stdio.h>
 
+bool init();
+bool loadMedia();
+void close();
+void initGraphic();
 void showGraphic();
 
 #endif /* showGraphic_hpp */

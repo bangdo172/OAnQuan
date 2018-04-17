@@ -1,10 +1,5 @@
 //
 //  showGraphic.cpp
-//  oanquan
-//
-//  Created by Bang Do on 4/12/18.
-//  Copyright © 2018 Bang Do. All rights reserved.
-//
 
 #include "showGraphic.hpp"
 #include <iostream>
@@ -29,6 +24,7 @@ SDL_Texture* gBigStone = NULL;
 SDL_Texture* gHand = NULL;
 
 SDL_Rect handPos;
+SDL_Rect stone;
 
 bool init();
 bool loadMedia();
@@ -38,7 +34,7 @@ SDL_Texture* loadTexture( std::string path );
 bool init()
 {
     bool success = true;
-    gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+    gWindow = SDL_CreateWindow( "O An Quan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
     gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
     SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
     int imgFlags = IMG_INIT_PNG;
@@ -80,38 +76,27 @@ SDL_Texture* loadTexture( std::string path )
     return newTexture;
 }
 
-SDL_Rect stone;
-/*
-void drawBoxStones(box boxS) {
-    
-    stone.w = 20;
-    stone.h = 20;
-    stone.x = boxS.posX;
-    stone.y = boxS.posY;
-    
-    SDL_RenderCopy( gRenderer, gStone, NULL, &stone);
-}
- 
-void drawBigBoxStones(bigBox& boxBig)
-{
-    SDL_Rect bigStone;
-    bigStone.w = 40;
-    bigStone.h = 40;
-    if (boxBig.posLeft == true) {
-        bigStone.x = 100;
-    }
-    else {
-        bigStone.x = 1100;
-    }
-    bigStone.y = 330;
-    SDL_RenderCopy(gRenderer, gBigStone, NULL, &bigStone);
-}
-*/
-void showGraphic() {
+
+void showGround() {
     init();
     loadMedia();
+   
+}
+
+void showHand (int hand_X, int hand_Y) {
+    handPos.x = hand_X;
+    handPos.y = hand_Y;
+    SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
+}
+
+void showStone() {
+    
+    
+}
+void showGraphic() {
+    showGround();
+    
     bool quit = false;
-    SDL_Rect handPos;
     SDL_Event e;
     handPos.w = 100;
     handPos.h = 100;
@@ -128,14 +113,38 @@ void showGraphic() {
             }
         }
         
-        SDL_RenderClear( gRenderer );
-        SDL_RenderCopy( gRenderer, gTable, NULL, NULL );
-        
-        //drawBigBoxStones(boxB[0]);
-        //drawBigBoxStones(boxB[1]);
-        SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
+        SDL_RenderClear( gRenderer);
+        SDL_RenderCopy( gRenderer, gTable, NULL, NULL);
+        showHand(handPos.x, handPos.y);
         SDL_RenderPresent( gRenderer );
     }
     close();
 }
 
+
+/*
+ void drawBoxStones(box boxS) {
+ 
+ stone.w = 20;
+ stone.h = 20;
+ stone.x = boxS.posX;
+ stone.y = boxS.posY;
+ 
+ SDL_RenderCopy( gRenderer, gStone, NULL, &stone);
+ }
+ 
+ void drawBigBoxStones(bigBox& boxBig)
+ {
+ SDL_Rect bigStone;
+ bigStone.w = 40;
+ bigStone.h = 40;
+ if (boxBig.posLeft == true) {
+ bigStone.x = 100;
+ }
+ else {
+ bigStone.x = 1100;
+ }
+ bigStone.y = 330;
+ SDL_RenderCopy(gRenderer, gBigStone, NULL, &bigStone);
+ }
+ */

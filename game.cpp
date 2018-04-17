@@ -1,10 +1,4 @@
-//
 //  game.cpp
-//  oanquan
-//
-//  Created by Bang Do on 4/16/18.
-//  Copyright © 2018 Bang Do. All rights reserved.
-//
 
 #include "game.hpp"
 #include <iostream>
@@ -27,6 +21,7 @@ box boxS[10];
 bigBox boxB[2] = {{true}, {false}};
 
 bool endGame;
+bool turnFirstPerson;
 
 box chooseBox() {
     return boxS[1];
@@ -37,15 +32,31 @@ bool chooseDirection () {
 void moveStone() {
     
 }
+void distributeStone() {
+    
+}
+void gameOver() {
+    
+}
 void gameLoop() {
     endGame = false;
+    turnFirstPerson = true;
+    int turn = 0;
     while (!endGame) {
+        turn ++;
+        if (turn % 2 == 0) {
+            turnFirstPerson = false;
+        }
+        else {
+            turnFirstPerson = true;
+        }
+        
         chooseBox();
         chooseDirection();
         moveStone();
         // dai quan
-        
+        distributeStone();
         // endGame
-        
+        gameOver();
     }
 }
