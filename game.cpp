@@ -43,6 +43,7 @@ void gameLoop() {
     turnFirstPerson = true;
     int turn = 0;
     while (!endGame) {
+        
         turn ++;
         if (turn % 2 == 0) {
             turnFirstPerson = false;

@@ -76,13 +76,6 @@ SDL_Texture* loadTexture( std::string path )
     return newTexture;
 }
 
-
-void showGround() {
-    init();
-    loadMedia();
-   
-}
-
 void showHand (int hand_X, int hand_Y) {
     handPos.x = hand_X;
     handPos.y = hand_Y;
@@ -91,11 +84,11 @@ void showHand (int hand_X, int hand_Y) {
 
 void showStone() {
     
-    
 }
-void showGraphic() {
-    showGround();
-    
+
+void initShowGraphic() {
+    init();
+    loadMedia();
     bool quit = false;
     SDL_Event e;
     handPos.w = 100;
@@ -121,7 +114,9 @@ void showGraphic() {
     close();
 }
 
+void showGraphic() {
 
+}
 /*
  void drawBoxStones(box boxS) {
  
@@ -147,4 +142,4 @@ void showGraphic() {
  bigStone.y = 330;
  SDL_RenderCopy(gRenderer, gBigStone, NULL, &bigStone);
  }
- */
+*/
