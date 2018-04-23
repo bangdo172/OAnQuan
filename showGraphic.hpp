@@ -1,6 +1,6 @@
-
 //
 //  showGraphic.hpp
+//
 
 #ifndef showGraphic_hpp
 #define showGraphic_hpp
@@ -11,34 +11,36 @@
 #include <vector>
 #include "SDL_ttf.h"
 
-bool init();
-bool loadMedia();
-void close();
-void initGraphic();
-void showGraphic();
+SDL_Texture* loadTexture( std::string path );
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 #define POSX1 100
 #define POSY1 100
-#define BOXWIDTH 100
-#define BOXHEIGHT 100
+#define BOXWIDTH 160
+#define BOXHEIGHT 160
 
-SDL_Window* gWindow = NULL;
-SDL_Renderer* gRenderer = NULL;
 
-SDL_Texture* gStone = NULL;
-SDL_Texture* gTable = NULL;
-SDL_Texture* gBigStone = NULL;
-SDL_Texture* gHand = NULL;
 
-SDL_Rect handPos;
-SDL_Rect stone;
+extern SDL_Window* gWindow;
+extern SDL_Renderer* gRenderer;
+
+extern SDL_Texture* gStone;
+extern SDL_Texture* gTable;
+extern SDL_Texture* gBigStone;
+extern SDL_Texture* gHand;
+extern SDL_Texture* gRightArrow;
+extern SDL_Texture* gLeftArrow;
+
+extern SDL_Rect handPos;
+extern SDL_Rect stone;
+extern SDL_Rect rightArrow;
+extern SDL_Rect leftArrow;
+extern SDL_Event e;
 
 bool init();
 bool loadMedia();
 void close();
-SDL_Texture* loadTexture( std::string path );
+void showGraphic();
 
-SDL_Event e;
 #endif /* showGraphic_hpp */

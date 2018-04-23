@@ -1,14 +1,15 @@
+//
 //  game.cpp
+//
 
 #include "game.hpp"
 
-using namespace std;
 
-box boxS[10];
-bigBox boxB[2] = {{true}, {false}};
 
-//bool endGame;
-bool turnFirstPerson;
+bool gEndGame;
+bool gTurnFirstPerson;
+int gFirstPlayerScore = 0;
+int gSecondPlayerScore = 0;
 
 box chooseBox() {
     return boxS[1];
@@ -26,38 +27,43 @@ void gameOver() {
     
 }
 void gameLoop() {
-    //endGame = false;
+    ////////INIT FOR SDL////////
     init();
     loadMedia();
     bool quit = false;
-    
-    turnFirstPerson = true;
+    ////////INIT FOR GAME LOOP////////
+    gEndGame = false;
+    gTurnFirstPerson = true;
     int turn = 0;
     
+    /////////////////////////////////////////////////////
+    //////////           GAME LOOP           ////////////
+    /////////////////////////////////////////////////////
     while (!quit) {
-        
         turn ++;
         if (turn % 2 == 0) {
-            turnFirstPerson = false;
+            gTurnFirstPerson = false;
         }
         else {
-            turnFirstPerson = true;
+            gTurnFirstPerson = true;
         }
+        
         ///////////////////////////////////////
-        ////////logic game written here////////
+        /////// logic game written here ///////
         ///////////////////////////////////////
-        
-        chooseBox();
-        chooseDirection();
-        moveStone();
-        // dai quan
-        distributeStone();
-        // endGame
-        gameOver();
-        
-        
+        if (gEndGame) {
+            gameOver();
+        }
+        else {
+            chooseBox();
+            chooseDirection();
+            moveStone();
+            // dai quan
+            distributeStone();
+            
+        }
         //////////////////////////////////////
-        ////////SDL library used here/////////
+        /////// SDL library used here ////////
         //////////////////////////////////////
         while( SDL_PollEvent( &e ) != 0 )
         {
@@ -66,10 +72,9 @@ void gameLoop() {
                 quit = true;
             }
         }
-        
         SDL_RenderClear( gRenderer);
         SDL_RenderCopy( gRenderer, gTable, NULL, NULL);
-        //showHand(handPos.x, handPos.y);
+        showGraphic();
         SDL_RenderPresent( gRenderer );
     }
     close();

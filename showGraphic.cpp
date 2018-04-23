@@ -1,4 +1,6 @@
+//
 //  showGraphic.cpp
+//
 
 #include "showGraphic.hpp"
 
@@ -23,6 +25,9 @@ bool loadMedia()
     gTable = loadTexture( "table.png" );
     gBigStone = loadTexture("bigStone.jpg");
     gHand = loadTexture("hand.png");
+    gLeftArrow = loadTexture("left.png");
+    gRightArrow = loadTexture("right.png");
+    
     return success;
 }
 
@@ -45,18 +50,33 @@ SDL_Texture* loadTexture( std::string path )
     return newTexture;
 }
 
-void showHand (int hand_X, int hand_Y) {
+void showHand (SDL_Rect handPos) {
     handPos.w = 100;
     handPos.h = 100;
-    handPos.x = 640;
-    handPos.y = 320;
-    
-    handPos.x = hand_X;
-    handPos.y = hand_Y;
     SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
 }
 
-void showStone() {
-    
+void showStone(SDL_Rect stone) {
+    stone.w = 20;
+    stone.h = 20;
+    SDL_RenderCopy (gRenderer, gStone, NULL, &stone);
 }
 
+void showArrow (SDL_Rect leftArrow, SDL_Rect rightArrow) {
+    leftArrow.w = 100;
+    leftArrow.h = 100;
+    rightArrow.w = 100;
+    rightArrow.h = 100;
+    leftArrow.x = 400;
+    leftArrow.y = 400;
+    rightArrow.x = leftArrow.x + BOXWIDTH/2;
+    rightArrow.y = leftArrow.y ;
+    SDL_RenderCopy(gRenderer, gLeftArrow, NULL, &leftArrow);
+    SDL_RenderCopy(gRenderer, gRightArrow, NULL, &rightArrow);
+}
+
+void showGraphic() {
+    showHand(handPos);
+    showStone(stone);
+    showArrow(leftArrow, rightArrow);
+}

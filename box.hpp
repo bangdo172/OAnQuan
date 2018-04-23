@@ -1,27 +1,30 @@
-////
+//
 //  box.hpp
+//
 
 #ifndef box_hpp
 #define box_hpp
 
 #include <stdio.h>
-
+#include "showGraphic.hpp"
 // class of small box
-class box {
+
+struct box {
 public:
-    int posX, posY, numStone;
-    box(int, int, int);
-    box(){};
+    SDL_Rect boxSRect;
+    int numStone;
 };
 
-
-class bigBox
+struct bigBox
 {
 public:
-    int posX, posY, numStone;
+    SDL_Rect boxBRect;
+    int numStone;
     bool bigStone = true;
     bool posLeft;
-    bigBox(bool pos) : numStone(0), bigStone(1), posLeft(pos) {};
 };
+
+extern box boxS[10];
+extern bigBox boxB[2];
 
 #endif /* box_hpp */
