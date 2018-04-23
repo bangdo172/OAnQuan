@@ -9,4 +9,3 @@ box::box(int x,int y, int num) {
     numStone = num;
 }
 
-

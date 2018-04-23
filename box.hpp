@@ -1,4 +1,4 @@
-//
+////
 //  box.hpp
 
 #ifndef box_hpp
@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 
-// class of small box 
+// class of small box
 class box {
 public:
     int posX, posY, numStone;

@@ -1,4 +1,3 @@
-//
 //  showGraphic.cpp
 
 #include "showGraphic.hpp"
@@ -86,7 +85,7 @@ void showStone() {
     
 }
 
-void initShowGraphic() {
+void showGraphic() {
     init();
     loadMedia();
     bool quit = false;
@@ -98,6 +97,7 @@ void initShowGraphic() {
     
     while( !quit )
     {
+        
         while( SDL_PollEvent( &e ) != 0 )
         {
             if( e.type == SDL_QUIT )
@@ -113,33 +113,8 @@ void initShowGraphic() {
     }
     close();
 }
-
-void showGraphic() {
-
-}
 /*
- void drawBoxStones(box boxS) {
- 
- stone.w = 20;
- stone.h = 20;
- stone.x = boxS.posX;
- stone.y = boxS.posY;
- 
- SDL_RenderCopy( gRenderer, gStone, NULL, &stone);
- }
- 
- void drawBigBoxStones(bigBox& boxBig)
- {
- SDL_Rect bigStone;
- bigStone.w = 40;
- bigStone.h = 40;
- if (boxBig.posLeft == true) {
- bigStone.x = 100;
- }
- else {
- bigStone.x = 1100;
- }
- bigStone.y = 330;
- SDL_RenderCopy(gRenderer, gBigStone, NULL, &bigStone);
- }
+void showGraphic() {
+    
+}
 */
