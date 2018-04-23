@@ -1,34 +1,6 @@
 //  showGraphic.cpp
 
 #include "showGraphic.hpp"
-#include <iostream>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <vector>
-#include "SDL_ttf.h"
-
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
-#define POSX1 100
-#define POSY1 100
-#define BOXWIDTH 100
-#define BOXHEIGHT 100
-
-SDL_Window* gWindow = NULL;
-SDL_Renderer* gRenderer = NULL;
-
-SDL_Texture* gStone = NULL;
-SDL_Texture* gTable = NULL;
-SDL_Texture* gBigStone = NULL;
-SDL_Texture* gHand = NULL;
-
-SDL_Rect handPos;
-SDL_Rect stone;
-
-bool init();
-bool loadMedia();
-void close();
-SDL_Texture* loadTexture( std::string path );
 
 bool init()
 {
@@ -47,12 +19,10 @@ bool init()
 bool loadMedia()
 {
     bool success = true;
-    
     gStone = loadTexture( "stone.png" );
     gTable = loadTexture( "table.png" );
     gBigStone = loadTexture("bigStone.jpg");
     gHand = loadTexture("hand.png");
-    
     return success;
 }
 
@@ -76,6 +46,11 @@ SDL_Texture* loadTexture( std::string path )
 }
 
 void showHand (int hand_X, int hand_Y) {
+    handPos.w = 100;
+    handPos.h = 100;
+    handPos.x = 640;
+    handPos.y = 320;
+    
     handPos.x = hand_X;
     handPos.y = hand_Y;
     SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
@@ -85,36 +60,3 @@ void showStone() {
     
 }
 
-void showGraphic() {
-    init();
-    loadMedia();
-    bool quit = false;
-    SDL_Event e;
-    handPos.w = 100;
-    handPos.h = 100;
-    handPos.x = 640;
-    handPos.y = 320;
-    
-    while( !quit )
-    {
-        
-        while( SDL_PollEvent( &e ) != 0 )
-        {
-            if( e.type == SDL_QUIT )
-            {
-                quit = true;
-            }
-        }
-        
-        SDL_RenderClear( gRenderer);
-        SDL_RenderCopy( gRenderer, gTable, NULL, NULL);
-        showHand(handPos.x, handPos.y);
-        SDL_RenderPresent( gRenderer );
-    }
-    close();
-}
-/*
-void showGraphic() {
-    
-}
-*/

@@ -8,7 +8,7 @@
 
 
 int main (int argc, char* argv[]) {
-    showGraphic();
+    
     gameLoop();
     return 0;
 }
