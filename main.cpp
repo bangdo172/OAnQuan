@@ -17,6 +17,11 @@ SDL_Texture* gHand = NULL;
 SDL_Texture* gRightArrow = NULL;
 SDL_Texture* gLeftArrow = NULL;
 
+TTF_Font *gFont = NULL;
+SDL_Rect gSpriteClips[ BUTTON_SPRITE_TOTAL ];
+LTexture gButtonSpriteSheetTexture;
+LButton gButtons[ TOTAL_BUTTONS ];
+
 SDL_Rect handPos;
 SDL_Rect stone;
 SDL_Rect rightArrow;
