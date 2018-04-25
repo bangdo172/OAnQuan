@@ -180,11 +180,13 @@ void LButton::handleEvent( SDL_Event* e, int* a, int* b )
     {
         //Get mouse position
         int x, y;
+        a = &x;
+        b = &y;
         SDL_GetMouseState( &x, &y );
         
         //Check if mouse is in button
         bool inside = true;
-        std::cout << x << " " << y << std:: endl;
+        std::cout << *a << " " << *b << std:: endl;
         //Mouse is left of the button
         if( x < mPosition.x )
         {

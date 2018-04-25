@@ -47,7 +47,7 @@ void gameLoop() {
         }
         
         
-//        int* a, *b;
+        int* a = nullptr, *b = nullptr;
 //
 //        while( SDL_PollEvent( &e ) != 0 )
 //        {
@@ -68,12 +68,17 @@ void gameLoop() {
         SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
         SDL_RenderClear( gRenderer );
         
+        
+        for( int i = 0; i < TOTAL_BUTTONS; ++i )
+        {
+            gButtons[ i ].handleEvent( &e, a, b );
+        }
+        
         //Render buttons
         for( int i = 0; i < TOTAL_BUTTONS; ++i )
         {
             gButtons[ i ].render();
         }
-        
         
         
         
@@ -101,9 +106,12 @@ void gameLoop() {
                 quit = true;
             }
         }
+        
+        
         SDL_RenderClear( gRenderer);
         SDL_RenderCopy( gRenderer, gTable, NULL, NULL);
         showGraphic();
+        
         SDL_RenderPresent( gRenderer );
     }
     close();
