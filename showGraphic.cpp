@@ -160,8 +160,8 @@ int LTexture::getHeight()
 ///////////////////////////////////////////////////////////////////////////////////////
 LButton::LButton()
 {
-    mPosition.x = 200;
-    mPosition.y = 190;
+    mPosition.x = 500;
+    mPosition.y = 500;
     
     mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
     //std::cout << mPosition.x << " " << mPosition.y << std::endl;
@@ -235,6 +235,10 @@ void LButton::handleEvent( SDL_Event* e, const int& a, const int& b )
 void LButton::render()
 {
     //Show current button sprite
+    if (mCurrentSprite == 0)
+    {
+        return;
+    }
     gButtonSpriteSheetTexture.render( mPosition.x, mPosition.y, &gSpriteClips[ mCurrentSprite ] );
 }
 
@@ -253,6 +257,7 @@ bool init()
     {
         success = false;
     }
+    initBox();
     return success;
 }
 
@@ -282,6 +287,7 @@ bool loadMedia()
         gSpriteClips[ i ].w = BUTTON_WIDTH;
         gSpriteClips[ i ].h = BUTTON_HEIGHT;
     }
+    
     for (int i = 0; i < 10; i ++) {
         gButtons[i].setPosition(boxS[i].boxSRect.x, boxS[i].boxSRect.y);
     }

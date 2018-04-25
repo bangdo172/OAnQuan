@@ -27,4 +27,5 @@ public:
 extern box boxS[10];
 extern bigBox boxB[2];
 
+void initBox();
 #endif /* box_hpp */

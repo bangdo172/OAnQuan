@@ -13,6 +13,48 @@
 #include "box.hpp"
 
 
+/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////// Khai bao bien //////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 720
+#define POSX1 100
+#define POSY1 100
+#define BOXHEIGHT 160
+#define BOXWIDTH 160
+
+const int BUTTON_WIDTH = BOXWIDTH;
+const int BUTTON_HEIGHT = BOXWIDTH;
+const int TOTAL_BUTTONS = 10;
+
+extern SDL_Window* gWindow;
+extern SDL_Renderer* gRenderer;
+extern SDL_Texture* gStone;
+extern SDL_Texture* gTable;
+extern SDL_Texture* gBigStone;
+extern SDL_Texture* gHand;
+extern SDL_Texture* gRightArrow;
+extern SDL_Texture* gLeftArrow;
+
+extern TTF_Font* gFont;
+
+extern SDL_Rect rightArrow;
+extern SDL_Rect leftArrow;
+extern SDL_Rect handPos;
+extern SDL_Rect stone;
+extern SDL_Event e;
+
+/////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////// Function /////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+
+bool init();
+bool loadMedia();
+void close();
+void showGraphic();
+SDL_Texture* loadTexture( std::string path );
+
 enum LButtonSprite
 {
     BUTTON_SPRITE_MOUSE_OUT = 0,
@@ -82,54 +124,10 @@ private:
     LButtonSprite mCurrentSprite;
 };
 
-//
-
-
-/////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////// Khai bao bien //////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////
-
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
-#define POSX1 100
-#define POSY1 100
-#define BOXHEIGHT 160
-#define BOXWIDTH 160
-
-const int BUTTON_WIDTH = BOXWIDTH;
-const int BUTTON_HEIGHT = BOXWIDTH;
-const int TOTAL_BUTTONS = 10;
-
-extern SDL_Window* gWindow;
-extern SDL_Renderer* gRenderer;
-extern SDL_Texture* gStone;
-extern SDL_Texture* gTable;
-extern SDL_Texture* gBigStone;
-extern SDL_Texture* gHand;
-extern SDL_Texture* gRightArrow;
-extern SDL_Texture* gLeftArrow;
-
-extern TTF_Font* gFont;
-
 extern SDL_Rect gSpriteClips[ BUTTON_SPRITE_TOTAL ];
 extern LTexture gButtonSpriteSheetTexture;
 extern LButton gButtons[ TOTAL_BUTTONS ];
 
-extern SDL_Rect rightArrow;
-extern SDL_Rect leftArrow;
-extern SDL_Rect handPos;
-extern SDL_Rect stone;
-extern SDL_Event e;
-
-/////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////// Function /////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////
-
-bool init();
-bool loadMedia();
-void close();
-void showGraphic();
-SDL_Texture* loadTexture( std::string path );
 
 #endif /* showGraphic_hpp */
 
