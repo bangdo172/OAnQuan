@@ -69,7 +69,7 @@ public:
     void setPosition( int x, int y );
     
     //Handles mouse event
-    void handleEvent( SDL_Event* e, int *a, int *b );
+    void handleEvent( SDL_Event* e, const int& a, const int& b);
     
     //Shows button sprite
     void render();

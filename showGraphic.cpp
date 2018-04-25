@@ -41,7 +41,7 @@ bool LTexture::loadFromFile( std::string path )
         //Color key image
         SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0, 0xFF, 0xFF ) );
         
-        //Create texture from surface pixels
+        //Create tesxture from surface pixels
         newTexture = SDL_CreateTextureFromSurface( gRenderer, loadedSurface );
         if( newTexture == NULL )
         {
@@ -160,8 +160,8 @@ int LTexture::getHeight()
 ///////////////////////////////////////////////////////////////////////////////////////
 LButton::LButton()
 {
-    mPosition.x = 0;
-    mPosition.y = 0;
+    mPosition.x = 200;
+    mPosition.y = 190;
     
     mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
     //std::cout << mPosition.x << " " << mPosition.y << std::endl;
@@ -173,20 +173,17 @@ void LButton::setPosition( int x, int y )
     mPosition.y = y;
 }
 
-void LButton::handleEvent( SDL_Event* e, int* a, int* b )
+void LButton::handleEvent( SDL_Event* e, const int& a, const int& b )
 {
     //If mouse event happened
     if( e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP )
     {
         //Get mouse position
-        int x, y;
-        a = &x;
-        b = &y;
-        SDL_GetMouseState( &x, &y );
+        int x = a, y = b;
         
         //Check if mouse is in button
         bool inside = true;
-        std::cout << *a << " " << *b << std:: endl;
+        //std::cout << *a << " " << *b << std:: endl;
         //Mouse is left of the button
         if( x < mPosition.x )
         {
@@ -272,10 +269,21 @@ bool loadMedia()
     gRightArrow = loadTexture("right.png");
 //    gButtonSpriteSheetTexture.loadFromFile( "left.png" ) ;
 //    gButtonSpriteSheetTexture.loadFromFile( "right.png");
-    gButtonSpriteSheetTexture.loadFromFile( "button.png");
+    if( !gButtonSpriteSheetTexture.loadFromFile( "button.png" ) )
+    {
+        printf( "Failed to load button sprite texture!\n" );
+        success = false;
+    }
     ///////////////// Buttons Position //////////////////
+    for( int i = 0; i < BUTTON_SPRITE_TOTAL; ++i )
+    {
+        gSpriteClips[ i ].x = 0;
+        gSpriteClips[ i ].y = i * 200;
+        gSpriteClips[ i ].w = BUTTON_WIDTH;
+        gSpriteClips[ i ].h = BUTTON_HEIGHT;
+    }
     for (int i = 0; i < 10; i ++) {
-            gButtons[i].setPosition(boxS[i].boxSRect.x, boxS[i].boxSRect.y);
+        gButtons[i].setPosition(boxS[i].boxSRect.x, boxS[i].boxSRect.y);
     }
     
     
