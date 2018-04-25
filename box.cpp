@@ -13,7 +13,7 @@ void initBox () {
         boxS[i].boxSRect.y = 190;
     }
     for (int i = 5; i < 10; i ++) {
-        boxS[i].boxSRect.x = 200 + i * BOXWIDTH;
+        boxS[i].boxSRect.x = 200 + (i - 5) * BOXWIDTH;
         boxS[i].boxSRect.y = 190 + 160;
     }
     boxB[0].boxBRect.x = 100;

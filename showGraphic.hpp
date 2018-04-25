@@ -104,23 +104,13 @@ private:
 class LButton
 {
 public:
-    //Initializes internal variables
     LButton();
-    
-    //Sets top left position
     void setPosition( int x, int y );
-    
-    //Handles mouse event
     void handleEvent( SDL_Event* e, const int& a, const int& b);
-    
-    //Shows button sprite
     void render();
     
 private:
-    //Top left position
     SDL_Point mPosition;
-    
-    //Currently used global sprite
     LButtonSprite mCurrentSprite;
 };
 

@@ -46,24 +46,6 @@ void gameLoop() {
             gTurnFirstPerson = true;
         }
         
-        
-
-//
-//        while( SDL_PollEvent( &e ) != 0 )
-//        {
-//            //User requests quit
-//            if( e.type == SDL_QUIT )
-//            {
-//                quit = true;
-//            }
-//
-//            //Handle button events
-//            for( int i = 0; i < TOTAL_BUTTONS; ++i )
-//            {
-//                gButtons[ i ].handleEvent( &e, a, b );
-//            }
-//        }
-        
         //Clear screen
         SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
         SDL_RenderClear( gRenderer );
@@ -103,11 +85,13 @@ void gameLoop() {
         SDL_RenderClear( gRenderer);
         SDL_RenderCopy( gRenderer, gTable, NULL, NULL);
         showGraphic();
+        
         for( int i = 0; i < TOTAL_BUTTONS; ++i )
         {
             gButtons[ i ].render();
         }
         SDL_RenderPresent( gRenderer );
     }
+    
     close();
 }
