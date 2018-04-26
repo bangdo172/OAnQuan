@@ -114,7 +114,7 @@ void LButton::setPosition( int x, int y )
     mPosition.y = y;
 }
 
-void LButton::handleEvent( SDL_Event* e, const int& a, const int& b )
+void LButton::handleEvent( SDL_Event* e, const int& a, const int& b, int& mouseEvent )
 {
     if( e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP )
     {
@@ -146,6 +146,7 @@ void LButton::handleEvent( SDL_Event* e, const int& a, const int& b )
         if( !inside )
         {
             mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+            mouseEvent = 0;
         }
         //Mouse is inside button
         else
@@ -155,14 +156,21 @@ void LButton::handleEvent( SDL_Event* e, const int& a, const int& b )
             {
                 case SDL_MOUSEMOTION:
                     mCurrentSprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+                    mouseEvent = 1;
                     break;
                     
                 case SDL_MOUSEBUTTONDOWN:
                     mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;
+                    mouseEvent = 2;
+                    //std:: cout << "xxx ";
+                    // mPosition.x & y nằm trong khung nút trái hoặt khung nút phải && button down thỉ thực hiện lệnh
+                    // trả về biến bool left;
+                    // hàm đang thao tác trong gameloop();
                     break;
                     
                 case SDL_MOUSEBUTTONUP:
                     mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+                    mouseEvent = 3;
                     break;
             }
         }
@@ -175,7 +183,8 @@ void LButton::render()
     {
         return;
     }
-    gButtonSpriteSheetTexture.render( mPosition.x, mPosition.y, &gSpriteClips[ mCurrentSprite ] );
+    gButtonSpriteSheetTextureLeft.render( mPosition.x, mPosition.y, &gSpriteClipsLeft[ mCurrentSprite ] );
+    gButtonSpriteSheetTextureRight.render( mPosition.x + BOXWIDTH/2, mPosition.y, &gSpriteClipsRight[mCurrentSprite]);
 }
 
 
@@ -202,34 +211,43 @@ bool loadMedia()
     bool success = true;
     
     ///////////////// image input here //////////////////
+    gGround = loadTexture("ground.png");
     gStone = loadTexture( "stone.png" );
     gTable = loadTexture( "table.png" );
     gBigStone = loadTexture("bigStone.jpg");
     gHand = loadTexture("hand.png");
     gLeftArrow = loadTexture("left.png");
     gRightArrow = loadTexture("right.png");
-    gButtonSpriteSheetTexture.loadFromFile("button.png");
-    
+    gButtonSpriteSheetTextureLeft.loadFromFile("arrow.png");
+    gButtonSpriteSheetTextureRight.loadFromFile("arrow.png");
+    // xửa button thành bảng chọn
     ///////////////// Buttons Position //////////////////
     for( int i = 0; i < BUTTON_SPRITE_TOTAL; ++i )
     {
-        gSpriteClips[ i ].x = 0;
-        gSpriteClips[ i ].y = i * 200;
-        gSpriteClips[ i ].w = BUTTON_WIDTH;
-        gSpriteClips[ i ].h = BUTTON_HEIGHT;
+        // Sprite left
+        gSpriteClipsLeft[ i ].x = 0;
+        gSpriteClipsLeft[ i ].y = 100;
+        gSpriteClipsLeft[ i ].w = BUTTON_WIDTH;
+        gSpriteClipsLeft[ i ].h = BUTTON_HEIGHT;
+        // Sprite right
+        gSpriteClipsRight[ i ].x = 700;
+        gSpriteClipsRight[ i ].y = 100;
+        gSpriteClipsRight[ i ].w = BUTTON_WIDTH;
+        gSpriteClipsRight[ i ].h = BUTTON_HEIGHT;
     }
     
     for (int i = 0; i < 10; i ++) {
-        gButtons[i].setPosition(boxS[i].boxSRect.x, boxS[i].boxSRect.y);
+        gButtonsLeft[i].setPosition(boxS[i].boxSRect.x, boxS[i].boxSRect.y);
+        gButtonsRight[i].setPosition(boxS[i].boxSRect.x + BOXWIDTH/2, boxS[i].boxSRect.y);
     }
-    
     
     return success;
 }
 
 void close()
 {
-    gButtonSpriteSheetTexture.free();
+    gButtonSpriteSheetTextureLeft.free();
+    gButtonSpriteSheetTextureRight.free();
     SDL_DestroyRenderer( gRenderer );
     SDL_DestroyWindow( gWindow );
     gWindow = NULL;

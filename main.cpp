@@ -10,6 +10,7 @@
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
 
+SDL_Texture* gGround = NULL;
 SDL_Texture* gStone = NULL;
 SDL_Texture* gTable = NULL;
 SDL_Texture* gBigStone = NULL;
@@ -18,9 +19,12 @@ SDL_Texture* gRightArrow = NULL;
 SDL_Texture* gLeftArrow = NULL;
 
 TTF_Font *gFont = NULL;
-SDL_Rect gSpriteClips[ BUTTON_SPRITE_TOTAL ];
-LTexture gButtonSpriteSheetTexture;
-LButton gButtons[ TOTAL_BUTTONS ];
+SDL_Rect gSpriteClipsLeft[ BUTTON_SPRITE_TOTAL ];
+SDL_Rect gSpriteClipsRight[ BUTTON_SPRITE_TOTAL ];
+LTexture gButtonSpriteSheetTextureLeft;
+LTexture gButtonSpriteSheetTextureRight;
+LButton gButtonsLeft[ TOTAL_BUTTONS ];
+LButton gButtonsRight[ TOTAL_BUTTONS ];
 
 SDL_Rect handPos;
 SDL_Rect stone;

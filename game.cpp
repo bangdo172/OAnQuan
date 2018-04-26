@@ -9,11 +9,14 @@ bool gTurnFirstPerson;
 int gFirstPlayerScore = 0;
 int gSecondPlayerScore = 0;
 
-box chooseBox() {
-    return boxS[1];
-}
-bool chooseDirection () {
-    return 0;
+
+void chooseBoxAndDirection (int mouseEvent) {
+    if (mouseEvent == 1) {
+        
+    }
+    else if (mouseEvent == 2) {
+        
+    }
 }
 void moveStone() {
     
@@ -25,19 +28,15 @@ void gameOver() {
     
 }
 void gameLoop() {
-    ////////INIT FOR SDL////////
-    init();
-    loadMedia();
-    bool quit = false;
     ////////INIT FOR GAME LOOP////////
     gEndGame = false;
     gTurnFirstPerson = true;
     int turn = 0;
-    
+    int mouseEvent = 0;
     /////////////////////////////////////////////////////
     //////////           GAME LOOP           ////////////
     /////////////////////////////////////////////////////
-    while (!quit) {
+    while (! gEndGame) {
         turn ++;
         if (turn % 2 == 0) {
             gTurnFirstPerson = false;
@@ -45,13 +44,8 @@ void gameLoop() {
         else {
             gTurnFirstPerson = true;
         }
-        
-        //Clear screen
-        SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
-        SDL_RenderClear( gRenderer );
-        
-        //Render buttons
-        
+        std::cout << turn << std::endl;
+
         ///////////////////////////////////////
         /////// logic game written here ///////
         ///////////////////////////////////////
@@ -59,39 +53,43 @@ void gameLoop() {
             gameOver();
         }
         else {
-            chooseBox();
-            chooseDirection();
+            chooseBoxAndDirection(mouseEvent);
             moveStone();
-            // dai quan
             distributeStone();
-            
         }
         //////////////////////////////////////
         /////// SDL library used here ////////
         //////////////////////////////////////
-        while( SDL_PollEvent( &e ) != 0 )
-        {
-            if( e.type == SDL_QUIT )
+        ////////INIT FOR SDL////////
+        init();
+        loadMedia();
+        bool quit = false;
+        while (! quit) {
+            while( SDL_PollEvent( &e ) != 0 )
             {
-                quit = true;
+                if( e.type == SDL_QUIT )
+                {
+                    quit = true;
+                }
+                int a, b;
+                SDL_GetMouseState(&a, &b);
+                for( int i = 0; i < TOTAL_BUTTONS; ++i )
+                {
+                    gButtonsLeft[ i ].handleEvent( &e, a, b, mouseEvent );
+                    gButtonsRight[ i ].handleEvent(&e, a, b, mouseEvent);
+                }
             }
-            int a, b;
-            SDL_GetMouseState(&a, &b);
+            SDL_RenderClear( gRenderer);
+            SDL_RenderCopy( gRenderer, gTable, NULL, NULL);
+            showGraphic();
+            
             for( int i = 0; i < TOTAL_BUTTONS; ++i )
             {
-                gButtons[ i ].handleEvent( &e, a, b );
+                gButtonsLeft[ i ].render();
+                gButtonsRight[ i ].render();
             }
+            SDL_RenderPresent( gRenderer );
         }
-        SDL_RenderClear( gRenderer);
-        SDL_RenderCopy( gRenderer, gTable, NULL, NULL);
-        showGraphic();
-        
-        for( int i = 0; i < TOTAL_BUTTONS; ++i )
-        {
-            gButtons[ i ].render();
-        }
-        SDL_RenderPresent( gRenderer );
     }
-    
     close();
 }
