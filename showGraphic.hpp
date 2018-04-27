@@ -24,7 +24,7 @@
 #define BOXHEIGHT 160
 #define BOXWIDTH 160
 
-const int BUTTON_WIDTH = BOXWIDTH;
+const int BUTTON_WIDTH = BOXWIDTH/2;
 const int BUTTON_HEIGHT = BOXWIDTH;
 const int TOTAL_BUTTONS = 10;
 
@@ -46,6 +46,7 @@ extern SDL_Rect leftArrow;
 extern SDL_Rect handPos;
 extern SDL_Rect stone;
 extern SDL_Event e;
+extern int gTurn;
 
 /////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////// Function /////////////////////////////////////
@@ -107,6 +108,7 @@ class LButton
 {
 public:
     LButton();
+    bool left;
     void setPosition( int x, int y );
     void handleEvent( SDL_Event* e, const int& a, const int& b, int& mouseEvent);
     void render();
@@ -114,7 +116,6 @@ public:
 private:
     SDL_Point mPosition;
     LButtonSprite mCurrentSprite;
-    //LButtonSprite mCurrentSpriteRight;
 };
 
 extern SDL_Rect gSpriteClipsLeft[ BUTTON_SPRITE_TOTAL ];

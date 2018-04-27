@@ -34,6 +34,7 @@ SDL_Event e;
 
 box boxS[10];
 bigBox boxB[2] = {{true}, {false}};
+int gTurn = 0;
 
 
 int main (int argc, char* argv[]) {

@@ -82,8 +82,8 @@ void LTexture::render( int x, int y, SDL_Rect* clip, double angle, SDL_Point* ce
     SDL_Rect renderQuad = { x, y, mWidth, mHeight };
     if( clip != NULL )
     {
-        renderQuad.w = clip->w;
-        renderQuad.h = clip->h;
+        renderQuad.w = BUTTON_WIDTH;
+        renderQuad.h = BUTTON_HEIGHT;
     }
     SDL_RenderCopyEx( gRenderer, mTexture, clip, &renderQuad, angle, center, flip );
 }
@@ -106,6 +106,7 @@ LButton::LButton()
     mPosition.x = 500;
     mPosition.y = 500;
     mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+    left = true;
 }
 
 void LButton::setPosition( int x, int y )
@@ -116,7 +117,7 @@ void LButton::setPosition( int x, int y )
 
 void LButton::handleEvent( SDL_Event* e, const int& a, const int& b, int& mouseEvent )
 {
-    if( e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP )
+    if( e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN)
     {
         int x = a, y = b;
 
@@ -127,7 +128,7 @@ void LButton::handleEvent( SDL_Event* e, const int& a, const int& b, int& mouseE
             inside = false;
         }
         //Mouse is right of the button
-        else if( x > mPosition.x + BUTTON_WIDTH )
+        else if( x > mPosition.x + BOXWIDTH / 2)
         {
             inside = false;
         }
@@ -151,26 +152,26 @@ void LButton::handleEvent( SDL_Event* e, const int& a, const int& b, int& mouseE
         //Mouse is inside button
         else
         {
+            mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
             //Set mouse over sprite
             switch( e->type )
             {
                 case SDL_MOUSEMOTION:
-                    mCurrentSprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
                     mouseEvent = 1;
                     break;
                     
                 case SDL_MOUSEBUTTONDOWN:
-                    mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;
+                    for (int i = 0; i < TOTAL_BUTTONS; i++)
+                    {
+                        gButtonsRight[i].mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+                        gButtonsLeft[i].mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+                    }
                     mouseEvent = 2;
+                    gTurn++;
                     //std:: cout << "xxx ";
                     // mPosition.x & y nằm trong khung nút trái hoặt khung nút phải && button down thỉ thực hiện lệnh
                     // trả về biến bool left;
                     // hàm đang thao tác trong gameloop();
-                    break;
-                    
-                case SDL_MOUSEBUTTONUP:
-                    mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
-                    mouseEvent = 3;
                     break;
             }
         }
@@ -179,20 +180,36 @@ void LButton::handleEvent( SDL_Event* e, const int& a, const int& b, int& mouseE
 
 void LButton::render()
 {
-    if (mCurrentSprite == 0)
+    if (mCurrentSprite == 0 )
     {
         return;
     }
-    gButtonSpriteSheetTextureLeft.render( mPosition.x, mPosition.y, &gSpriteClipsLeft[ mCurrentSprite ] );
-    gButtonSpriteSheetTextureRight.render( mPosition.x + BOXWIDTH/2, mPosition.y, &gSpriteClipsRight[mCurrentSprite]);
+    else
+    {
+        SDL_Rect rect;
+        rect.x = mPosition.x;
+        rect.y = mPosition.y + BUTTON_HEIGHT / 2 - 40;
+        rect.w = 242 / 3;
+        rect.h = 187 / 3;
+        if (left){
+            SDL_RenderCopy(gRenderer, gLeftArrow, NULL, &rect);
+        }
+        else{
+            rect.x += 20;
+            SDL_RenderCopy(gRenderer, gRightArrow, NULL, &rect);
+        }
+    }
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////// Init Function /////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
 bool init()
 {
+    for (int i = 0; i < TOTAL_BUTTONS; i++)
+    {
+        gButtonsRight[i].left = false;
+    }
     bool success = true;
     gWindow = SDL_CreateWindow( "O An Quan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
     gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
@@ -216,8 +233,8 @@ bool loadMedia()
     gTable = loadTexture( "table.png" );
     gBigStone = loadTexture("bigStone.jpg");
     gHand = loadTexture("hand.png");
-    gLeftArrow = loadTexture("left.png");
-    gRightArrow = loadTexture("right.png");
+    gLeftArrow = loadTexture("leftArrow.png");
+    gRightArrow = loadTexture("rightArrow.png");
     gButtonSpriteSheetTextureLeft.loadFromFile("arrow.png");
     gButtonSpriteSheetTextureRight.loadFromFile("arrow.png");
     // xửa button thành bảng chọn
@@ -226,12 +243,12 @@ bool loadMedia()
     {
         // Sprite left
         gSpriteClipsLeft[ i ].x = 0;
-        gSpriteClipsLeft[ i ].y = 100;
+        gSpriteClipsLeft[ i ].y = 125;
         gSpriteClipsLeft[ i ].w = BUTTON_WIDTH;
         gSpriteClipsLeft[ i ].h = BUTTON_HEIGHT;
         // Sprite right
-        gSpriteClipsRight[ i ].x = 700;
-        gSpriteClipsRight[ i ].y = 100;
+        gSpriteClipsRight[ i ].x = 790;
+        gSpriteClipsRight[ i ].y = 125;
         gSpriteClipsRight[ i ].w = BUTTON_WIDTH;
         gSpriteClipsRight[ i ].h = BUTTON_HEIGHT;
     }
