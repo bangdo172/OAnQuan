@@ -33,8 +33,8 @@ void gameLoop() {
     gTurnFirstPerson = true;
     int mouseEvent = 0;
     bool quit = false;
-    init();
-    loadMedia();
+    initGraphic();
+    //loadMedia();
     /////////////////////////////////////////////////////
     //////////           GAME LOOP           ////////////
     /////////////////////////////////////////////////////
@@ -78,10 +78,10 @@ void gameLoop() {
                 }
             }
             SDL_RenderClear( gRenderer);
-            //SDL_RenderCopy( gRenderer, gGround, NULL, NULL);
             SDL_RenderCopy( gRenderer, gTable, NULL, NULL);
             showGraphic();
-            gTextTexture.render(100, 100);
+        // render text "game o an quan"; gTextTexture.render(posX of Destination, posY of Destination)
+            gTextTexture.render(100, 675);
             for( int i = gTurn % 2 * 5; i < gTurn % 2 * 5 + 5; ++i )
             {
                 gButtonsLeft[ i ].render();

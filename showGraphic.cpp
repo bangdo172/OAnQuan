@@ -204,13 +204,13 @@ void LButton::render()
 /////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////// Init Function /////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
-bool init()
+void initGraphic()
 {
+    gStoneTable = new SDL_Texture*[21]; // lúc gọi chỉ cần gStoneTable[i] thôi à?  ừ
     for (int i = 0; i < TOTAL_BUTTONS; i++)
     {
         gButtonsRight[i].left = false;
     }
-    bool success = true;
     gWindow = SDL_CreateWindow( "O An Quan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
     gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
     SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
@@ -218,50 +218,67 @@ bool init()
     IMG_Init(imgFlags);
     TTF_Init();
     initBox();
-    return success;
-}
-
-bool loadMedia()
-{
-    bool success = true;
     
     ///////////////// image input here //////////////////
-    gGround = loadTexture("ground.png");
-    gStone = loadTexture( "stone21.png" );
+    //load each number of stones
+    for ( int i = 0; i < 21; i ++) {
+        std::stringstream tmp;
+        std::string path;
+        tmp << "stone" << i + 1 << ".png";
+        tmp >> path;
+        gStoneTable[i] = loadTexture(path);
+    }
+   
+    gStone1 = loadTexture( "stone1.png" );
+    gStone2 = loadTexture( "stone2.png" );
+    gStone3 = loadTexture( "stone3.png" );
+    gStone4 = loadTexture( "stone4.png" );
+    gStone5 = loadTexture( "stone5.png" );
+    gStone6 = loadTexture( "stone6.png" );
+    gStone7 = loadTexture( "stone7.png" );
+    gStone8 = loadTexture( "stone8.png" );
+    gStone9 = loadTexture( "stone9.png" );
+    gStone10 = loadTexture( "stone10.png" );
+    gStone11 = loadTexture( "stone11.png" );
+    gStone12 = loadTexture( "stone12.png" );
+    gStone13 = loadTexture( "stone13.png" );
+    gStone14 = loadTexture( "stone14.png" );
+    gStone15 = loadTexture( "stone15.png" );
+    gStone16 = loadTexture( "stone16.png" );
+    gStone17 = loadTexture( "stone17.png" );
+    gStone18 = loadTexture( "stone18.png" );
+    gStone19 = loadTexture( "stone19.png" );
+    gStone20 = loadTexture( "stone20.png" );
+    gStone21 = loadTexture( "stone21.png" );
+    
     gTable = loadTexture( "table.png" );
     gBigStone = loadTexture("bigStone.jpg");
     gHand = loadTexture("hand.png");
     gLeftArrow = loadTexture("leftArrow.png");
     gRightArrow = loadTexture("rightArrow.png");
-//    gButtonSpriteSheetTextureLeft.loadFromFile("arrow.png");
-//    gButtonSpriteSheetTextureRight.loadFromFile("arrow.png");
     
     /////////////////// TTF library /////////////////////
     gFont = TTF_OpenFont( "font.ttf", 28 );
     SDL_Color textColor = { 0, 0, 0 };
-    gTextTexture.loadFromRenderedText( "Play game O an quan", textColor ) ;
+    gTextTexture.loadFromRenderedText( "Game O an quan", textColor ) ;
+    
+    //
 
+    for (int i = 0; i < 10; i ++) {
+        std::string strNumOfStone;
+        std::stringstream temp;
+        temp << boxS[i].numStone;
+        temp >> strNumOfStone;
+        gTextTexture1.loadFromRenderedText(strNumOfStone, textColor);
+    }
+    //
     ///////////////// Buttons Position //////////////////
-//    for( int i = 0; i < BUTTON_SPRITE_TOTAL; ++i )
-//    {
-//        // Sprite left
-//        gSpriteClipsLeft[ i ].x = 0;
-//        gSpriteClipsLeft[ i ].y = 125;
-//        gSpriteClipsLeft[ i ].w = BUTTON_WIDTH;
-//        gSpriteClipsLeft[ i ].h = BUTTON_HEIGHT;
-//        // Sprite right
-//        gSpriteClipsRight[ i ].x = 790;
-//        gSpriteClipsRight[ i ].y = 125;
-//        gSpriteClipsRight[ i ].w = BUTTON_WIDTH;
-//        gSpriteClipsRight[ i ].h = BUTTON_HEIGHT;
-//    }
     
     for (int i = 0; i < 10; i ++) {
         gButtonsLeft[i].setPosition(boxS[i].boxSRect.x, boxS[i].boxSRect.y);
         gButtonsRight[i].setPosition(boxS[i].boxSRect.x + BOXWIDTH/2, boxS[i].boxSRect.y);
     }
     
-    return success;
 }
 
 void close()
@@ -293,38 +310,94 @@ SDL_Texture* loadTexture( std::string path )
 ////////////////////// showing Function //////////////////////////
 //////////////////////////////////////////////////////////////////
 
-//////////// show Hand //////////////
-void showHand (SDL_Rect handPos) {
-    handPos.w = 100;
-    handPos.h = 100;
-    SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
-}
 //////////// show Stone /////////////
+
 void showStone(SDL_Rect stone) {
-    stone.x = boxS[0].boxSRect.x;
-    stone.y = boxS[0].boxSRect.y;
-    stone.w = 130;
-    stone.h = 130;
-    SDL_RenderCopy (gRenderer, gStone, NULL, &stone);
+    for (int i = 0; i < 10; i ++) {
+        stone.x = boxS[i].boxSRect.x;
+        stone.y = boxS[i].boxSRect.y;
+        stone.w = 130;
+        stone.h = 130;
+        switch (boxS[i].numStone) {
+            case 0:
+                break;
+            case 1:
+                SDL_RenderCopy (gRenderer, gStone1, NULL, &stone);
+                break;
+            case 2:
+                SDL_RenderCopy (gRenderer, gStone2, NULL, &stone);
+                break;
+            case 3:
+                SDL_RenderCopy (gRenderer, gStone3, NULL, &stone);
+                break;
+            case 4:
+                SDL_RenderCopy (gRenderer, gStone4, NULL, &stone);
+                break;
+            case 5:
+                SDL_RenderCopy (gRenderer, gStone5, NULL, &stone);
+                break;
+            case 6:
+                SDL_RenderCopy (gRenderer, gStone6, NULL, &stone);
+                break;
+            case 7:
+                SDL_RenderCopy (gRenderer, gStone7, NULL, &stone);
+                break;
+            case 8:
+                SDL_RenderCopy (gRenderer, gStone8, NULL, &stone);
+                break;
+            case 9:
+                SDL_RenderCopy (gRenderer, gStone9, NULL, &stone);
+                break;
+            case 10:
+                SDL_RenderCopy (gRenderer, gStone10, NULL, &stone);
+                break;
+            case 11:
+                SDL_RenderCopy (gRenderer, gStone11, NULL, &stone);
+                break;
+            case 12:
+                SDL_RenderCopy (gRenderer, gStone12, NULL, &stone);
+                break;
+            case 13:
+                SDL_RenderCopy (gRenderer, gStone13, NULL, &stone);
+                break;
+            case 14:
+                SDL_RenderCopy (gRenderer, gStone14, NULL, &stone);
+                break;
+            case 15:
+                SDL_RenderCopy (gRenderer, gStone15, NULL, &stone);
+                break;
+            case 16:
+                SDL_RenderCopy (gRenderer, gStone16, NULL, &stone);
+                break;
+            case 17:
+                SDL_RenderCopy (gRenderer, gStone17, NULL, &stone);
+                break;
+            case 18:
+                SDL_RenderCopy (gRenderer, gStone18, NULL, &stone);
+                break;
+            case 19:
+                SDL_RenderCopy (gRenderer, gStone19, NULL, &stone);
+                break;
+            case 20:
+                SDL_RenderCopy (gRenderer, gStone20, NULL, &stone);
+                break;
+            default:
+                SDL_RenderCopy(gRenderer, gStone21, NULL, &stone);
+                break;
+        }
+    }
 }
-//////////// show Arrow /////////////
-void showArrow (SDL_Rect leftArrow, SDL_Rect rightArrow) {
-    leftArrow.w = 60;
-    leftArrow.h = 60;
-    rightArrow.w = 60;
-    rightArrow.h = 60;
-    leftArrow.x = 200;
-    leftArrow.y = 40;
-    rightArrow.x = leftArrow.x + BOXWIDTH/2;
-    rightArrow.y = leftArrow.y ;
-    SDL_RenderCopy(gRenderer, gLeftArrow, NULL, &leftArrow);
-    SDL_RenderCopy(gRenderer, gRightArrow, NULL, &rightArrow);
-}
+
+//////////// show Hand //////////////
+//void moveHand (SDL_Rect handPosBe, SDL_Rect handPosAf) {
+//    handPos.w = 100;
+//    handPos.h = 100;
+//    // render copy (,,position at source picture, position of destination)
+//    SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
+//}
 
 ////////////// total showing function ////////////////
 void showGraphic() {
-    
-    showHand(handPos);
+    //moveHand(handPos);
     showStone(stone);
-    showArrow(leftArrow, rightArrow);
 }
