@@ -21,8 +21,8 @@
 #define SCREEN_HEIGHT 720
 #define POSX1 100
 #define POSY1 100
-#define BOXHEIGHT 160
-#define BOXWIDTH 160
+#define BOXHEIGHT 100
+#define BOXWIDTH 100
 
 const int BUTTON_WIDTH = BOXWIDTH/2;
 const int BUTTON_HEIGHT = BOXWIDTH;
@@ -120,6 +120,7 @@ private:
 
 extern SDL_Rect gSpriteClipsLeft[ BUTTON_SPRITE_TOTAL ];
 extern SDL_Rect gSpriteClipsRight[ BUTTON_SPRITE_TOTAL ];
+extern LTexture gTextTexture;
 extern LTexture gButtonSpriteSheetTextureLeft;
 extern LTexture gButtonSpriteSheetTextureRight;
 extern LButton gButtonsLeft[ TOTAL_BUTTONS ];

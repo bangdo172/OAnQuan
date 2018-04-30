@@ -45,7 +45,7 @@ void gameLoop() {
         else {
             gTurnFirstPerson = true;
         }
-        std::cout << gTurn << std::endl;
+        
 
         ///////////////////////////////////////
         /////// logic game written here ///////
@@ -81,7 +81,7 @@ void gameLoop() {
             SDL_RenderCopy( gRenderer, gGround, NULL, NULL);
             SDL_RenderCopy( gRenderer, gTable, NULL, NULL);
             showGraphic();
-            
+            gTextTexture.render(100, 100);
             for( int i = gTurn % 2 * 5; i < gTurn % 2 * 5 + 5; ++i )
             {
                 gButtonsLeft[ i ].render();

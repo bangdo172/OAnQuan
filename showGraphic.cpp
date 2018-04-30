@@ -188,9 +188,9 @@ void LButton::render()
     {
         SDL_Rect rect;
         rect.x = mPosition.x;
-        rect.y = mPosition.y + BUTTON_HEIGHT / 2 - 40;
-        rect.w = 242 / 3;
-        rect.h = 187 / 3;
+        rect.y = mPosition.y + BUTTON_HEIGHT / 2 - 10;
+        rect.w = 242 / 3.5;
+        rect.h = 187 / 3.5;
         if (left){
             SDL_RenderCopy(gRenderer, gLeftArrow, NULL, &rect);
         }
@@ -215,10 +215,8 @@ bool init()
     gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
     SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
     int imgFlags = IMG_INIT_PNG;
-    if( !( IMG_Init( imgFlags ) & imgFlags ) )
-    {
-        success = false;
-    }
+    IMG_Init(imgFlags);
+    TTF_Init();
     initBox();
     return success;
 }
@@ -235,23 +233,28 @@ bool loadMedia()
     gHand = loadTexture("hand.png");
     gLeftArrow = loadTexture("leftArrow.png");
     gRightArrow = loadTexture("rightArrow.png");
-    gButtonSpriteSheetTextureLeft.loadFromFile("arrow.png");
-    gButtonSpriteSheetTextureRight.loadFromFile("arrow.png");
-    // xửa button thành bảng chọn
+//    gButtonSpriteSheetTextureLeft.loadFromFile("arrow.png");
+//    gButtonSpriteSheetTextureRight.loadFromFile("arrow.png");
+    
+    /////////////////// TTF library /////////////////////
+    gFont = TTF_OpenFont( "font.ttf", 28 );
+    SDL_Color textColor = { 0, 0, 0 };
+    gTextTexture.loadFromRenderedText( "Play O an 0 quan 1 2 3", textColor ) ;
+    
     ///////////////// Buttons Position //////////////////
-    for( int i = 0; i < BUTTON_SPRITE_TOTAL; ++i )
-    {
-        // Sprite left
-        gSpriteClipsLeft[ i ].x = 0;
-        gSpriteClipsLeft[ i ].y = 125;
-        gSpriteClipsLeft[ i ].w = BUTTON_WIDTH;
-        gSpriteClipsLeft[ i ].h = BUTTON_HEIGHT;
-        // Sprite right
-        gSpriteClipsRight[ i ].x = 790;
-        gSpriteClipsRight[ i ].y = 125;
-        gSpriteClipsRight[ i ].w = BUTTON_WIDTH;
-        gSpriteClipsRight[ i ].h = BUTTON_HEIGHT;
-    }
+//    for( int i = 0; i < BUTTON_SPRITE_TOTAL; ++i )
+//    {
+//        // Sprite left
+//        gSpriteClipsLeft[ i ].x = 0;
+//        gSpriteClipsLeft[ i ].y = 125;
+//        gSpriteClipsLeft[ i ].w = BUTTON_WIDTH;
+//        gSpriteClipsLeft[ i ].h = BUTTON_HEIGHT;
+//        // Sprite right
+//        gSpriteClipsRight[ i ].x = 790;
+//        gSpriteClipsRight[ i ].y = 125;
+//        gSpriteClipsRight[ i ].w = BUTTON_WIDTH;
+//        gSpriteClipsRight[ i ].h = BUTTON_HEIGHT;
+//    }
     
     for (int i = 0; i < 10; i ++) {
         gButtonsLeft[i].setPosition(boxS[i].boxSRect.x, boxS[i].boxSRect.y);
@@ -263,12 +266,16 @@ bool loadMedia()
 
 void close()
 {
+    gTextTexture.free();
+    TTF_CloseFont( gFont );
+    gFont = NULL;
     gButtonSpriteSheetTextureLeft.free();
     gButtonSpriteSheetTextureRight.free();
     SDL_DestroyRenderer( gRenderer );
     SDL_DestroyWindow( gWindow );
     gWindow = NULL;
     gRenderer = NULL;
+    TTF_Quit();
     IMG_Quit();
     SDL_Quit();
 }

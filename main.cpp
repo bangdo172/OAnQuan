@@ -19,6 +19,7 @@ SDL_Texture* gRightArrow = NULL;
 SDL_Texture* gLeftArrow = NULL;
 
 TTF_Font *gFont = NULL;
+LTexture gTextTexture;
 SDL_Rect gSpriteClipsLeft[ BUTTON_SPRITE_TOTAL ];
 SDL_Rect gSpriteClipsRight[ BUTTON_SPRITE_TOTAL ];
 LTexture gButtonSpriteSheetTextureLeft;
