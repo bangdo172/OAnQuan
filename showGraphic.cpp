@@ -227,7 +227,7 @@ bool loadMedia()
     
     ///////////////// image input here //////////////////
     gGround = loadTexture("ground.png");
-    gStone = loadTexture( "stone.png" );
+    gStone = loadTexture( "stone21.png" );
     gTable = loadTexture( "table.png" );
     gBigStone = loadTexture("bigStone.jpg");
     gHand = loadTexture("hand.png");
@@ -239,8 +239,8 @@ bool loadMedia()
     /////////////////// TTF library /////////////////////
     gFont = TTF_OpenFont( "font.ttf", 28 );
     SDL_Color textColor = { 0, 0, 0 };
-    gTextTexture.loadFromRenderedText( "Play O an 0 quan 1 2 3", textColor ) ;
-    
+    gTextTexture.loadFromRenderedText( "Play game O an quan", textColor ) ;
+
     ///////////////// Buttons Position //////////////////
 //    for( int i = 0; i < BUTTON_SPRITE_TOTAL; ++i )
 //    {
@@ -301,8 +301,10 @@ void showHand (SDL_Rect handPos) {
 }
 //////////// show Stone /////////////
 void showStone(SDL_Rect stone) {
-    stone.w = 20;
-    stone.h = 20;
+    stone.x = boxS[0].boxSRect.x;
+    stone.y = boxS[0].boxSRect.y;
+    stone.w = 130;
+    stone.h = 130;
     SDL_RenderCopy (gRenderer, gStone, NULL, &stone);
 }
 //////////// show Arrow /////////////

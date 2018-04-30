@@ -78,7 +78,7 @@ void gameLoop() {
                 }
             }
             SDL_RenderClear( gRenderer);
-            SDL_RenderCopy( gRenderer, gGround, NULL, NULL);
+            //SDL_RenderCopy( gRenderer, gGround, NULL, NULL);
             SDL_RenderCopy( gRenderer, gTable, NULL, NULL);
             showGraphic();
             gTextTexture.render(100, 100);
