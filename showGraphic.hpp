@@ -18,6 +18,7 @@
 #include <cstring>
 #include <string>
 #include <sstream>
+
 /////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// Khai bao bien //////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
@@ -37,29 +38,6 @@ const int TOTAL_BUTTONS = 10;
 extern SDL_Window* gWindow;
 extern SDL_Renderer* gRenderer;
 
-
-extern SDL_Texture* gStone;
-extern SDL_Texture* gStone1;
-extern SDL_Texture* gStone2;
-extern SDL_Texture* gStone3;
-extern SDL_Texture* gStone4;
-extern SDL_Texture* gStone5;
-extern SDL_Texture* gStone6;
-extern SDL_Texture* gStone7;
-extern SDL_Texture* gStone8;
-extern SDL_Texture* gStone9;
-extern SDL_Texture* gStone10;
-extern SDL_Texture* gStone11;
-extern SDL_Texture* gStone12;
-extern SDL_Texture* gStone13;
-extern SDL_Texture* gStone14;
-extern SDL_Texture* gStone15;
-extern SDL_Texture* gStone16;
-extern SDL_Texture* gStone17;
-extern SDL_Texture* gStone18;
-extern SDL_Texture* gStone19;
-extern SDL_Texture* gStone20;
-extern SDL_Texture* gStone21;
 
 extern SDL_Texture* gTable;
 extern SDL_Texture* gBigStone;
@@ -151,16 +129,8 @@ extern SDL_Rect gSpriteClipsLeft[ BUTTON_SPRITE_TOTAL ];
 extern SDL_Rect gSpriteClipsRight[ BUTTON_SPRITE_TOTAL ];
 
 extern LTexture gTextTexture;
-extern LTexture gTextTexture1;
-extern LTexture gTextTexture2;
-extern LTexture gTextTexture3;
-extern LTexture gTextTexture4;
-extern LTexture gTextTexture5;
-extern LTexture gTextTexture6;
-extern LTexture gTextTexture7;
-extern LTexture gTextTexture8;
-extern LTexture gTextTexture9;
-extern LTexture gTextTexture10;
+extern LTexture* gNumStoneText;
+
 extern LTexture gButtonSpriteSheetTextureLeft;
 extern LTexture gButtonSpriteSheetTextureRight;
 extern LButton gButtonsLeft[ TOTAL_BUTTONS ];

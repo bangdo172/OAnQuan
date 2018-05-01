@@ -4,6 +4,78 @@
 
 #include "showGraphic.hpp"
 
+void performancedTurn (box boxChosen, bool left) {
+    int nextBoxOrder = boxChosen.order;
+    if (gTurn % 2 == 1) {
+        if (left) {
+            while ((nextBoxOrder != 0) && (nextBoxOrder != 6)) {
+                int presentOrder = boxChosen.order;
+                int numStoneTemp = boxChosen.numStone;
+                boxChosen.numStone = 0;
+                for (int i = 1; i <= numStoneTemp; i ++) {
+                    if (presentOrder == 0) {
+                        presentOrder += 12;
+                    }
+                    boxS[-- presentOrder].numStone --;
+                }
+                presentOrder --;
+                boxChosen = boxS[presentOrder];
+                nextBoxOrder = boxChosen.order;
+            }
+        }
+        else {
+            while ((nextBoxOrder != 4) && (nextBoxOrder != 10)) {
+                int presentOrder = boxChosen.order;
+                int numStoneTemp = boxChosen.numStone;
+                boxChosen.numStone = 0;
+                for (int i = 1; i <= numStoneTemp; i ++) {
+                    if (presentOrder == 11) {
+                        presentOrder -= 12;
+                    }
+                    boxS[++ presentOrder].numStone --;
+                }
+                presentOrder ++;
+                boxChosen = boxS[presentOrder];
+                nextBoxOrder = boxChosen.order;
+            }
+        }
+    }
+    else {
+        if (left) {
+            while ((nextBoxOrder != 4) && (nextBoxOrder != 10)) {
+                int presentOrder = boxChosen.order;
+                int numStoneTemp = boxChosen.numStone;
+                boxChosen.numStone = 0;
+                for (int i = 1; i <= numStoneTemp; i ++) {
+                    if (presentOrder == 11) {
+                        presentOrder -= 12;
+                    }
+                    boxS[++ presentOrder].numStone --;
+                }
+                presentOrder ++;
+                boxChosen = boxS[presentOrder];
+                nextBoxOrder = boxChosen.order;
+            }
+        }
+        else {
+            while ((nextBoxOrder != 0) && (nextBoxOrder != 6)) {
+                int presentOrder = boxChosen.order;
+                int numStoneTemp = boxChosen.numStone;
+                boxChosen.numStone = 0;
+                for (int i = 1; i <= numStoneTemp; i ++) {
+                    if (presentOrder == 0) {
+                        presentOrder += 12;
+                    }
+                    boxS[-- presentOrder].numStone --;
+                }
+                presentOrder --;
+                boxChosen = boxS[presentOrder];
+                nextBoxOrder = boxChosen.order;
+            }
+        }
+    }
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// function for LTexture Class //////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -168,10 +240,10 @@ void LButton::handleEvent( SDL_Event* e, const int& a, const int& b, int& mouseE
                     }
                     mouseEvent = 2;
                     gTurn++;
-                    //std:: cout << "xxx ";
-                    // mPosition.x & y nằm trong khung nút trái hoặt khung nút phải && button down thỉ thực hiện lệnh
-                    // trả về biến bool left;
-                    // hàm đang thao tác trong gameloop();
+//                    // số lượng đá tăng nhưng lại mất đi hiển thị số viên đá
+//                    for (int i = 0; i < 10; i ++) {
+//                        boxS[i].numStone ++;
+//                    }
                     break;
             }
         }
@@ -206,7 +278,8 @@ void LButton::render()
 /////////////////////////////////////////////////////////////////////////////////
 void initGraphic()
 {
-    gStoneTable = new SDL_Texture*[21]; // lúc gọi chỉ cần gStoneTable[i] thôi à?  ừ
+    gStoneTable = new SDL_Texture*[22];
+    gNumStoneText = new LTexture[22];
     for (int i = 0; i < TOTAL_BUTTONS; i++)
     {
         gButtonsRight[i].left = false;
@@ -221,38 +294,15 @@ void initGraphic()
     
     ///////////////// image input here //////////////////
     //load each number of stones
-    for ( int i = 0; i < 21; i ++) {
+    for ( int i = 1; i < 22; i ++) {
         std::stringstream tmp;
         std::string path;
-        tmp << "stone" << i + 1 << ".png";
+        tmp << "stone" << i << ".png";
         tmp >> path;
         gStoneTable[i] = loadTexture(path);
     }
-   
-    gStone1 = loadTexture( "stone1.png" );
-    gStone2 = loadTexture( "stone2.png" );
-    gStone3 = loadTexture( "stone3.png" );
-    gStone4 = loadTexture( "stone4.png" );
-    gStone5 = loadTexture( "stone5.png" );
-    gStone6 = loadTexture( "stone6.png" );
-    gStone7 = loadTexture( "stone7.png" );
-    gStone8 = loadTexture( "stone8.png" );
-    gStone9 = loadTexture( "stone9.png" );
-    gStone10 = loadTexture( "stone10.png" );
-    gStone11 = loadTexture( "stone11.png" );
-    gStone12 = loadTexture( "stone12.png" );
-    gStone13 = loadTexture( "stone13.png" );
-    gStone14 = loadTexture( "stone14.png" );
-    gStone15 = loadTexture( "stone15.png" );
-    gStone16 = loadTexture( "stone16.png" );
-    gStone17 = loadTexture( "stone17.png" );
-    gStone18 = loadTexture( "stone18.png" );
-    gStone19 = loadTexture( "stone19.png" );
-    gStone20 = loadTexture( "stone20.png" );
-    gStone21 = loadTexture( "stone21.png" );
     
     gTable = loadTexture( "table.png" );
-    gBigStone = loadTexture("bigStone.jpg");
     gHand = loadTexture("hand.png");
     gLeftArrow = loadTexture("leftArrow.png");
     gRightArrow = loadTexture("rightArrow.png");
@@ -262,23 +312,26 @@ void initGraphic()
     SDL_Color textColor = { 0, 0, 0 };
     gTextTexture.loadFromRenderedText( "Game O an quan", textColor ) ;
     
-    //
-
-    for (int i = 0; i < 10; i ++) {
+    ///////// Text for number of Stone each Box /////////
+    for (int i = 0; i < 12; i ++) {
         std::string strNumOfStone;
         std::stringstream temp;
         temp << boxS[i].numStone;
         temp >> strNumOfStone;
-        gTextTexture1.loadFromRenderedText(strNumOfStone, textColor);
+        gNumStoneText[i].loadFromRenderedText(strNumOfStone, textColor);
     }
-    //
+
     ///////////////// Buttons Position //////////////////
     
-    for (int i = 0; i < 10; i ++) {
-        gButtonsLeft[i].setPosition(boxS[i].boxSRect.x, boxS[i].boxSRect.y);
-        gButtonsRight[i].setPosition(boxS[i].boxSRect.x + BOXWIDTH/2, boxS[i].boxSRect.y);
+    for (int i = 0; i < 5; i ++) {
+            gButtonsLeft[i].setPosition(boxS[i].boxSRect.x, boxS[i].boxSRect.y);
+            gButtonsRight[i].setPosition(boxS[i].boxSRect.x + BOXWIDTH/2, boxS[i].boxSRect.y);
     }
-    
+    for (int i = 6; i < 11; i ++) {
+        gButtonsLeft[i-1].setPosition(boxS[i].boxSRect.x, boxS[i].boxSRect.y);
+        gButtonsRight[i-1].setPosition(boxS[i].boxSRect.x + BOXWIDTH/2, boxS[i].boxSRect.y);
+    }
+
 }
 
 void close()
@@ -313,77 +366,18 @@ SDL_Texture* loadTexture( std::string path )
 //////////// show Stone /////////////
 
 void showStone(SDL_Rect stone) {
-    for (int i = 0; i < 10; i ++) {
+    for (int i = 0; i < 12; i ++) {
         stone.x = boxS[i].boxSRect.x;
         stone.y = boxS[i].boxSRect.y;
         stone.w = 130;
         stone.h = 130;
-        switch (boxS[i].numStone) {
-            case 0:
-                break;
-            case 1:
-                SDL_RenderCopy (gRenderer, gStone1, NULL, &stone);
-                break;
-            case 2:
-                SDL_RenderCopy (gRenderer, gStone2, NULL, &stone);
-                break;
-            case 3:
-                SDL_RenderCopy (gRenderer, gStone3, NULL, &stone);
-                break;
-            case 4:
-                SDL_RenderCopy (gRenderer, gStone4, NULL, &stone);
-                break;
-            case 5:
-                SDL_RenderCopy (gRenderer, gStone5, NULL, &stone);
-                break;
-            case 6:
-                SDL_RenderCopy (gRenderer, gStone6, NULL, &stone);
-                break;
-            case 7:
-                SDL_RenderCopy (gRenderer, gStone7, NULL, &stone);
-                break;
-            case 8:
-                SDL_RenderCopy (gRenderer, gStone8, NULL, &stone);
-                break;
-            case 9:
-                SDL_RenderCopy (gRenderer, gStone9, NULL, &stone);
-                break;
-            case 10:
-                SDL_RenderCopy (gRenderer, gStone10, NULL, &stone);
-                break;
-            case 11:
-                SDL_RenderCopy (gRenderer, gStone11, NULL, &stone);
-                break;
-            case 12:
-                SDL_RenderCopy (gRenderer, gStone12, NULL, &stone);
-                break;
-            case 13:
-                SDL_RenderCopy (gRenderer, gStone13, NULL, &stone);
-                break;
-            case 14:
-                SDL_RenderCopy (gRenderer, gStone14, NULL, &stone);
-                break;
-            case 15:
-                SDL_RenderCopy (gRenderer, gStone15, NULL, &stone);
-                break;
-            case 16:
-                SDL_RenderCopy (gRenderer, gStone16, NULL, &stone);
-                break;
-            case 17:
-                SDL_RenderCopy (gRenderer, gStone17, NULL, &stone);
-                break;
-            case 18:
-                SDL_RenderCopy (gRenderer, gStone18, NULL, &stone);
-                break;
-            case 19:
-                SDL_RenderCopy (gRenderer, gStone19, NULL, &stone);
-                break;
-            case 20:
-                SDL_RenderCopy (gRenderer, gStone20, NULL, &stone);
-                break;
-            default:
-                SDL_RenderCopy(gRenderer, gStone21, NULL, &stone);
-                break;
+        for (int j = 0; j < 22; j ++) {
+            if (boxS[i].numStone == j) {
+                SDL_RenderCopy(gRenderer, gStoneTable[j], NULL, &stone);
+            }
+        }
+        if (boxS[i].numStone >= 21) {
+            SDL_RenderCopy(gRenderer, gStoneTable[21], NULL, &stone);
         }
     }
 }
