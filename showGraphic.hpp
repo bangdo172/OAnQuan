@@ -63,6 +63,7 @@ void initGraphic();
 void loadMedia();
 void close();
 void showGraphic();
+
 SDL_Texture* loadTexture( std::string path );
 
 enum LButtonSprite

@@ -4,77 +4,7 @@
 
 #include "showGraphic.hpp"
 
-void performancedTurn (box boxChosen, bool left) {
-    int nextBoxOrder = boxChosen.order;
-    if (gTurn % 2 == 1) {
-        if (left) {
-            while ((nextBoxOrder != 0) && (nextBoxOrder != 6)) {
-                int presentOrder = boxChosen.order;
-                int numStoneTemp = boxChosen.numStone;
-                boxChosen.numStone = 0;
-                for (int i = 1; i <= numStoneTemp; i ++) {
-                    if (presentOrder == 0) {
-                        presentOrder += 12;
-                    }
-                    boxS[-- presentOrder].numStone --;
-                }
-                presentOrder --;
-                boxChosen = boxS[presentOrder];
-                nextBoxOrder = boxChosen.order;
-            }
-        }
-        else {
-            while ((nextBoxOrder != 4) && (nextBoxOrder != 10)) {
-                int presentOrder = boxChosen.order;
-                int numStoneTemp = boxChosen.numStone;
-                boxChosen.numStone = 0;
-                for (int i = 1; i <= numStoneTemp; i ++) {
-                    if (presentOrder == 11) {
-                        presentOrder -= 12;
-                    }
-                    boxS[++ presentOrder].numStone --;
-                }
-                presentOrder ++;
-                boxChosen = boxS[presentOrder];
-                nextBoxOrder = boxChosen.order;
-            }
-        }
-    }
-    else {
-        if (left) {
-            while ((nextBoxOrder != 4) && (nextBoxOrder != 10)) {
-                int presentOrder = boxChosen.order;
-                int numStoneTemp = boxChosen.numStone;
-                boxChosen.numStone = 0;
-                for (int i = 1; i <= numStoneTemp; i ++) {
-                    if (presentOrder == 11) {
-                        presentOrder -= 12;
-                    }
-                    boxS[++ presentOrder].numStone --;
-                }
-                presentOrder ++;
-                boxChosen = boxS[presentOrder];
-                nextBoxOrder = boxChosen.order;
-            }
-        }
-        else {
-            while ((nextBoxOrder != 0) && (nextBoxOrder != 6)) {
-                int presentOrder = boxChosen.order;
-                int numStoneTemp = boxChosen.numStone;
-                boxChosen.numStone = 0;
-                for (int i = 1; i <= numStoneTemp; i ++) {
-                    if (presentOrder == 0) {
-                        presentOrder += 12;
-                    }
-                    boxS[-- presentOrder].numStone --;
-                }
-                presentOrder --;
-                boxChosen = boxS[presentOrder];
-                nextBoxOrder = boxChosen.order;
-            }
-        }
-    }
-}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// function for LTexture Class //////////////////////////////////
@@ -237,13 +167,19 @@ void LButton::handleEvent( SDL_Event* e, const int& a, const int& b, int& mouseE
                     {
                         gButtonsRight[i].mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
                         gButtonsLeft[i].mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+                        
                     }
                     mouseEvent = 2;
                     gTurn++;
+                
+                    //
+                    
+                        
 //                    // số lượng đá tăng nhưng lại mất đi hiển thị số viên đá
 //                    for (int i = 0; i < 10; i ++) {
 //                        boxS[i].numStone ++;
 //                    }
+                    
                     break;
             }
         }
