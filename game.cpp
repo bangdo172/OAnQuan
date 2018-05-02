@@ -64,6 +64,7 @@ void performancedTurn (int order, bool left) {
     }
     while (quantity--)
     {
+        moveHandTo(boxS[order].order);
         order = nextBox(order, left);
         boxS[order].numStone++;
         //moveHandTo(boxS[order].order);
@@ -75,6 +76,14 @@ void performancedTurn (int order, bool left) {
         if (boxS[order].numStone == 0)
         {
             order = nextBox(order, left);
+            if (gTurn % 2)
+            {
+                boxP2.numStone += boxS[order].numStone;
+            }
+            else
+            {
+                boxP1.numStone += boxS[order].numStone;
+            }
             boxS[order].numStone = 0;
             take = true;
         }
@@ -167,32 +176,16 @@ void gameLoop() {
                 
             }
         }
-        SDL_RenderClear( gRenderer);
-        SDL_RenderCopy( gRenderer, gTable, NULL, NULL);
         showGraphic();
-    // render text "game o an quan"; gTextTexture.render(posX of Destination, posY of Destination)
-        gTextTexture.render(100, 675);
-        for (int i = 0; i < 12; i ++) {
-            for (int j = 0; j < 21; j ++) {
-                if (boxS[i].numStone == j + 1) {
-                    gNumStoneText[j].render(boxS[i].boxSRect.x + 110, boxS[i].boxSRect.y + 110);
-                }
-            }
-            if (boxS[i].numStone >= 21) {
-                gNumStoneText[20].render(boxS[i].boxSRect.x, boxS[i].boxSRect.y);
-            }
-            if (boxS[i].numStone == 0) {
-                gNumStoneText[0].render(boxS[i].boxSRect.x , boxS[i].boxSRect.y);
-            }
-        }
+        // render text "game o an quan"; gTextTexture.render(posX of Destination, posY of Destination)
+        
+        ///render buttons
         for( int i = gTurn % 2 * 5; i < gTurn % 2 * 5 + 5; ++i )
         {
             gButtonsLeft[ i ].render();
             gButtonsRight[ i ].render();
         }
         SDL_RenderPresent( gRenderer );
-        //SDL_Delay(500);
-        //performancedTurn(3, false);
         
     }
     close();

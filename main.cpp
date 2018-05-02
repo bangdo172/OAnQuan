@@ -40,7 +40,8 @@ SDL_Rect leftArrow;
 SDL_Event e;
 
 box boxS[12];
-
+box boxP1;
+box boxP2;
 int gTurn = 0;
 
 

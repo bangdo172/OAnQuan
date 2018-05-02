@@ -142,6 +142,8 @@ extern LTexture gButtonSpriteSheetTextureRight;
 extern LButton gButtonsLeft[ TOTAL_BUTTONS ];
 extern LButton gButtonsRight[ TOTAL_BUTTONS ];
 
+extern int gFirstPlayerScore;
+extern int gSecondPlayerScore;
 #endif /* showGraphic_hpp */
 
 

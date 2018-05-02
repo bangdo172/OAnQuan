@@ -16,7 +16,18 @@ void updateNumStone()
         gNumStoneText[i].loadFromRenderedText(strNumOfStone, textColor);
     }
 }
-
+void updateScore() {
+    std::string strScoreFirst;
+    std::stringstream temp1;
+    temp1 << boxP1.numStone;
+    temp1 >> strScoreFirst;
+    gScoreFirstText.loadFromRenderedText(strScoreFirst, textColor);
+    std::string strScoreSecond;
+    std::stringstream temp2;
+    temp2 << boxP2.numStone;
+    temp2 >> strScoreSecond;
+    gScoreSecondText.loadFromRenderedText(strScoreSecond, textColor);
+}
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// function for LTexture Class //////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -283,6 +294,11 @@ void initGraphic()
 void close()
 {
     gTextTexture.free();
+    
+    for (int i = 0; i < 10; i ++) {
+        gNumStoneText[i].free();
+    }
+    
     TTF_CloseFont( gFont );
     gFont = NULL;
     gButtonSpriteSheetTextureLeft.free();
@@ -332,19 +348,15 @@ void showStone(SDL_Rect stone) {
 void moveHandTo (int orderBoxDestination) {
     while (handPos.x < boxS[orderBoxDestination].boxSRect.x) {
         handPos.x ++;
-        SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
     }
     while (handPos.x > boxS[orderBoxDestination].boxSRect.x) {
         handPos.x --;
-        SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
     }
     while (handPos.y < boxS[orderBoxDestination].boxSRect.y) {
         handPos.y ++;
-        SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
     }
     while (handPos.y > boxS[orderBoxDestination].boxSRect.y) {
         handPos.y --;
-        SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
     }
     // render copy (,,position at source picture, position of destination)
     SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
@@ -353,6 +365,17 @@ void moveHandTo (int orderBoxDestination) {
 ////////////// total showing function ////////////////
 void showGraphic() {
     //moveHand(handPos);
+    SDL_RenderClear( gRenderer);
+    SDL_RenderCopy( gRenderer, gTable, NULL, NULL);
     updateNumStone();
+    updateScore();
     showStone(stone);
+    gTextTexture.render(100, 675);
+    for (int i = 0; i < 12; i ++)
+    {
+        gNumStoneText[i].render(boxS[i].boxSRect.x + 110, boxS[i].boxSRect.y + 110);
+    }
+    gScoreFirstText.render(boxP1.boxSRect.x, boxP1.boxSRect.y);
+    gScoreSecondText.render(boxP2.boxSRect.x, boxP2.boxSRect.y);
+
 }

@@ -18,5 +18,8 @@ public:
 
 extern box boxS[12];
 
+extern box boxP1;
+extern box boxP2;
+
 void initBox();
 #endif /* box_hpp */
