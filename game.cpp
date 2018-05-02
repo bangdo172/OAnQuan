@@ -8,6 +8,7 @@ bool gEndGame;
 bool gTurnFirstPerson;
 int gFirstPlayerScore = 0;
 int gSecondPlayerScore = 0;
+
 int nextBox(int order, bool& left)
 {
     if (left)
@@ -57,105 +58,41 @@ int nextBox(int order, bool& left)
 void performancedTurn (int order, bool left) {
     int quantity = boxS[order].numStone;
     boxS[order].numStone = 0;
-    int nextOrder = order + 1;
+    if (!quantity)
+    {
+        return;
+    }
     while (quantity--)
     {
         order = nextBox(order, left);
         boxS[order].numStone++;
+        //moveHandTo(boxS[order].order);
     }
-    order = nextBox(order, left);
-    if (boxS[order].numStone != 0)
+    bool take = false;
+    do
     {
         order = nextBox(order, left);
+        if (boxS[order].numStone == 0)
+        {
+            order = nextBox(order, left);
+            boxS[order].numStone = 0;
+            take = true;
+        }
+        else
+        {
+            break;
+        }
+    }
+    while (true);
+    if (!take && boxS[order].numStone != 0 && order != 5 && order != 11)
+    {
         //SDL_Delay(5000);
-        //performancedTurn(order, left);
+        performancedTurn(order, left);
     }
-//    while (boxS[nextOrder].numStone != 0) {
-//        
-//        while (quantity--)
-//        {
-//            order = nextBox(order, left);
-//            boxS[order].numStone++;
-//        }
-//        order = nextBox(order, left);
-//        if (boxS[order].numStone != 0)
-//        {
-//            order = nextBox(order, left);
-//            //SDL_Delay(5000);
-//            //performancedTurn(order, left);
-//        }
-//        nextOrder = order + 1;
-//    }
     
-    /*int nextBoxOrder = boxChosen.order;
-    if (gTurn % 2 == 1) {
-        if (left) {
-            while ((nextBoxOrder != 0) && (nextBoxOrder != 6)) {
-                int presentOrder = boxChosen.order;
-                int numStoneTemp = boxChosen.numStone;
-                boxChosen.numStone = 0;
-                for (int i = 1; i <= numStoneTemp; i ++) {
-                    if (presentOrder == 0) {
-                        presentOrder += 12;
-                    }
-                    boxS[-- presentOrder].numStone --;
-                }
-                presentOrder --;
-                boxChosen = boxS[presentOrder];
-                nextBoxOrder = boxChosen.order;
-            }
-        }
-        else {
-            while ((nextBoxOrder != 4) && (nextBoxOrder != 10)) {
-                int presentOrder = boxChosen.order;
-                int numStoneTemp = boxChosen.numStone;
-                boxChosen.numStone = 0;
-                for (int i = 1; i <= numStoneTemp; i ++) {
-                    if (presentOrder == 11) {
-                        presentOrder -= 12;
-                    }
-                    boxS[++ presentOrder].numStone --;
-                }
-                presentOrder ++;
-                boxChosen = boxS[presentOrder];
-                nextBoxOrder = boxChosen.order;
-            }
-        }
-    }
-    else {
-        if (left) {
-            while ((nextBoxOrder != 4) && (nextBoxOrder != 10)) {
-                int presentOrder = boxChosen.order;
-                int numStoneTemp = boxChosen.numStone;
-                boxChosen.numStone = 0;
-                for (int i = 1; i <= numStoneTemp; i ++) {
-                    if (presentOrder == 11) {
-                        presentOrder -= 12;
-                    }
-                    boxS[++ presentOrder].numStone --;
-                }
-                presentOrder ++;
-                boxChosen = boxS[presentOrder];
-                nextBoxOrder = boxChosen.order;
-            }
-        }
-        else {
-            while ((nextBoxOrder != 0) && (nextBoxOrder != 6)) {
-                int presentOrder = boxChosen.order;
-                int numStoneTemp = boxChosen.numStone;
-                boxChosen.numStone = 0;
-                for (int i = 1; i <= numStoneTemp; i ++) {
-                    if (presentOrder == 0) {
-                        presentOrder += 12;
-                    }
-                    boxS[-- presentOrder].numStone --;
-                }
-                presentOrder --;
-                boxChosen = boxS[presentOrder];
-                nextBoxOrder = boxChosen.order;
-            }
-        }
-    }*/
+    
+
+
 }
 
 void chooseBoxAndDirection (int mouseEvent) {
@@ -254,9 +191,8 @@ void gameLoop() {
             gButtonsRight[ i ].render();
         }
         SDL_RenderPresent( gRenderer );
-        SDL_Delay(500);
-        //int order = 0;
-        performancedTurn(6, true);
+        //SDL_Delay(500);
+        //performancedTurn(3, false);
         
     }
     close();

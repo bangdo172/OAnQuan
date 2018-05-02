@@ -53,6 +53,8 @@ extern SDL_Rect leftArrow;
 extern SDL_Rect handPos;
 extern SDL_Rect stone;
 extern SDL_Event e;
+extern void performancedTurn(int order, bool left);
+extern SDL_Color textColor;
 extern int gTurn;
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -63,8 +65,9 @@ void initGraphic();
 void loadMedia();
 void close();
 void showGraphic();
-
+void moveHandTo(int orderBoxDestination);
 SDL_Texture* loadTexture( std::string path );
+void updateNumStone();
 
 enum LButtonSprite
 {
@@ -116,11 +119,11 @@ class LButton
 {
 public:
     LButton();
+    int orderButton;
     bool left;
     void setPosition( int x, int y );
     void handleEvent( SDL_Event* e, const int& a, const int& b, int& mouseEvent);
     void render();
-    
 private:
     SDL_Point mPosition;
     LButtonSprite mCurrentSprite;
@@ -131,6 +134,8 @@ extern SDL_Rect gSpriteClipsRight[ BUTTON_SPRITE_TOTAL ];
 
 extern LTexture gTextTexture;
 extern LTexture* gNumStoneText;
+extern LTexture gScoreFirstText;
+extern LTexture gScoreSecondText;
 
 extern LTexture gButtonSpriteSheetTextureLeft;
 extern LTexture gButtonSpriteSheetTextureRight;

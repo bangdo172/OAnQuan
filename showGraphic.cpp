@@ -5,6 +5,17 @@
 #include "showGraphic.hpp"
 
 
+void updateNumStone()
+{
+    for (int i = 0; i < 12; i ++) {
+        std::string strNumOfStone;
+        std::stringstream temp;
+        temp << boxS[i].numStone;
+        temp >> strNumOfStone;
+        //strNumOfStone += '\0';
+        gNumStoneText[i].loadFromRenderedText(strNumOfStone, textColor);
+    }
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// function for LTexture Class //////////////////////////////////
@@ -170,16 +181,8 @@ void LButton::handleEvent( SDL_Event* e, const int& a, const int& b, int& mouseE
                         
                     }
                     mouseEvent = 2;
+                    performancedTurn(orderButton, left);
                     gTurn++;
-                
-                    //
-                    
-                        
-//                    // số lượng đá tăng nhưng lại mất đi hiển thị số viên đá
-//                    for (int i = 0; i < 10; i ++) {
-//                        boxS[i].numStone ++;
-//                    }
-                    
                     break;
             }
         }
@@ -220,6 +223,19 @@ void initGraphic()
     {
         gButtonsRight[i].left = false;
     }
+    for (int i = 0; i < TOTAL_BUTTONS; i++)
+    {
+        if (i > 4)
+        {
+            gButtonsLeft[i].orderButton = i + 1;
+            gButtonsRight[i].orderButton = i + 1;
+        }
+        else
+        {
+            gButtonsLeft[i].orderButton = i;
+            gButtonsRight[i].orderButton = i;
+        }
+    }
     gWindow = SDL_CreateWindow( "O An Quan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
     gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
     SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
@@ -238,6 +254,7 @@ void initGraphic()
         gStoneTable[i] = loadTexture(path);
     }
     
+    
     gTable = loadTexture( "table.png" );
     gHand = loadTexture("hand.png");
     gLeftArrow = loadTexture("leftArrow.png");
@@ -245,17 +262,10 @@ void initGraphic()
     
     /////////////////// TTF library /////////////////////
     gFont = TTF_OpenFont( "font.ttf", 28 );
-    SDL_Color textColor = { 0, 0, 0 };
+    
     gTextTexture.loadFromRenderedText( "Game O an quan", textColor ) ;
     
     ///////// Text for number of Stone each Box /////////
-    for (int i = 0; i < 12; i ++) {
-        std::string strNumOfStone;
-        std::stringstream temp;
-        temp << boxS[i].numStone;
-        temp >> strNumOfStone;
-        gNumStoneText[i].loadFromRenderedText(strNumOfStone, textColor);
-    }
 
     ///////////////// Buttons Position //////////////////
     
@@ -319,15 +329,30 @@ void showStone(SDL_Rect stone) {
 }
 
 //////////// show Hand //////////////
-//void moveHand (SDL_Rect handPosBe, SDL_Rect handPosAf) {
-//    handPos.w = 100;
-//    handPos.h = 100;
-//    // render copy (,,position at source picture, position of destination)
-//    SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
-//}
+void moveHandTo (int orderBoxDestination) {
+    while (handPos.x < boxS[orderBoxDestination].boxSRect.x) {
+        handPos.x ++;
+        SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
+    }
+    while (handPos.x > boxS[orderBoxDestination].boxSRect.x) {
+        handPos.x --;
+        SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
+    }
+    while (handPos.y < boxS[orderBoxDestination].boxSRect.y) {
+        handPos.y ++;
+        SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
+    }
+    while (handPos.y > boxS[orderBoxDestination].boxSRect.y) {
+        handPos.y --;
+        SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
+    }
+    // render copy (,,position at source picture, position of destination)
+    SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
+}
 
 ////////////// total showing function ////////////////
 void showGraphic() {
     //moveHand(handPos);
+    updateNumStone();
     showStone(stone);
 }

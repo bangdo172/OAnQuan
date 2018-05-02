@@ -19,9 +19,12 @@ SDL_Texture* gRightArrow = NULL;
 SDL_Texture* gLeftArrow = NULL;
 
 TTF_Font *gFont = NULL;
+SDL_Color textColor = { 0, 0, 0 };
 
 LTexture gTextTexture;
 LTexture* gNumStoneText;
+LTexture gScoreFirstText;
+LTexture gScoreSecondText;
 
 SDL_Rect gSpriteClipsLeft[ BUTTON_SPRITE_TOTAL ];
 SDL_Rect gSpriteClipsRight[ BUTTON_SPRITE_TOTAL ];
