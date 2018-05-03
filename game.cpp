@@ -56,6 +56,7 @@ int nextBox(int order, bool& left)
     return order;
 }
 void performancedTurn (int order, bool left) {
+    
     int quantity = boxS[order].numStone;
     boxS[order].numStone = 0;
     if (!quantity)
@@ -64,16 +65,30 @@ void performancedTurn (int order, bool left) {
     }
     while (quantity--)
     {
-        moveHandTo(boxS[order].order);
-        order = nextBox(order, left);
-        boxS[order].numStone++;
-        //moveHandTo(boxS[order].order);
+        handPos.x = boxS[order].boxSRect.x;
+        handPos.y = boxS[order].boxSRect.y;
+        int nextB = nextBox(order, left);
+        do
+        {
+            showGraphic();
+            if (moveHandTo(order, nextB))
+            {
+                order = nextB;
+                boxS[order].numStone++;
+                showGraphic();
+                SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
+                SDL_RenderPresent( gRenderer );
+                break;
+            }
+            SDL_RenderPresent( gRenderer );
+        }
+        while (true);
     }
     bool take = false;
     do
     {
         order = nextBox(order, left);
-        if (boxS[order].numStone == 0 && boxS[order + 1].numStone != 0)
+        if ((boxS[order].numStone == 0) && (boxS[order + 1].numStone != 0) && (order != 11) && (order != 5))
         {
             order = nextBox(order, left);
             if (gTurn % 2)
@@ -118,7 +133,18 @@ void performancedTurn (int order, bool left) {
         performancedTurn(order, left);
     }
     
-    
+    if (boxS[0].numStone == 0 && boxS[1].numStone == 0 && boxS[2].numStone == 0 && boxS[3].numStone && boxS[4].numStone == 0) {
+        for (int i = 0; i < 5; i ++) {
+            boxS[i].numStone ++;
+        }
+        boxP1.numStone -= 5;
+    }
+    if (boxS[6].numStone == 0 && boxS[7].numStone == 0 && boxS[8].numStone == 0 && boxS[9].numStone && boxS[10].numStone == 0) {
+        for (int i = 6; i < 11; i ++) {
+            boxS[i].numStone ++;
+        }
+        boxP1.numStone -= 5;
+    }
 }
 
 void chooseBoxAndDirection (int mouseEvent) {
@@ -188,8 +214,7 @@ void gameLoop() {
                 
             }
         }
-        
-        showGraphic();    
+        showGraphic();   // 1
         
         ///render buttons
         for( int i = gTurn % 2 * 5; i < gTurn % 2 * 5 + 5; ++i )
@@ -197,7 +222,6 @@ void gameLoop() {
             gButtonsLeft[ i ].render();
             gButtonsRight[ i ].render();
         }
-        
         SDL_RenderPresent( gRenderer );
     }
     close();

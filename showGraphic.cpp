@@ -250,6 +250,8 @@ void initGraphic()
     }
     bigStone.w = 60;
     bigStone.h = 60;
+    handPos.w = 100;
+    handPos.h = 100;
     gWindow = SDL_CreateWindow( "O An Quan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
     gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
     SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
@@ -349,21 +351,26 @@ void showStone(SDL_Rect stone) {
 }
 
 //////////// show Hand //////////////
-void moveHandTo (int orderBoxDestination) {
-    while (handPos.x < boxS[orderBoxDestination].boxSRect.x) {
-        handPos.x ++;
-    }
-    while (handPos.x > boxS[orderBoxDestination].boxSRect.x) {
-        handPos.x --;
-    }
-    while (handPos.y < boxS[orderBoxDestination].boxSRect.y) {
-        handPos.y ++;
-    }
-    while (handPos.y > boxS[orderBoxDestination].boxSRect.y) {
-        handPos.y --;
-    }
+bool moveHandTo (int currentBoxOrder, int orderBoxDestination) {
+    //int deltaX = (boxS[orderBoxDestination].boxSRect.x - boxS[currentBoxOrder].boxSRect.x) / 4;
+    //int deltaY = (boxS[orderBoxDestination].boxSRect.y - boxS[currentBoxOrder].boxSRect.y) / 4;
     // render copy (,,position at source picture, position of destination)
+    if (handPos.x != boxS[orderBoxDestination].boxSRect.x && boxS[orderBoxDestination].boxSRect.x != boxS[currentBoxOrder].boxSRect.x) {
+        (boxS[orderBoxDestination].boxSRect.x > boxS[currentBoxOrder].boxSRect.x) ? (handPos.x += 5) : (handPos.x -= 5);
+    }
+    if (handPos.y != boxS[orderBoxDestination].boxSRect.y && boxS[orderBoxDestination].boxSRect.y != boxS[currentBoxOrder].boxSRect.y)
+    {
+        (boxS[orderBoxDestination].boxSRect.y > boxS[currentBoxOrder].boxSRect.y) ? (handPos.y += 5) : (handPos.y -= 5);
+    }
     SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
+    if (handPos.x == boxS[orderBoxDestination].boxSRect.x  && handPos.y == boxS[orderBoxDestination].boxSRect.y)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void showBigStone()

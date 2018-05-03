@@ -66,7 +66,7 @@ void initGraphic();
 void loadMedia();
 void close();
 void showGraphic();
-void moveHandTo(int orderBoxDestination);
+bool moveHandTo(int currentBoxOrder, int orderBoxDestination);
 SDL_Texture* loadTexture( std::string path );
 void updateNumStone();
 
