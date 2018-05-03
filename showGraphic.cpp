@@ -28,6 +28,7 @@ void updateScore() {
     temp2 >> strScoreSecond;
     gScoreSecondText.loadFromRenderedText(strScoreSecond, textColor);
 }
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// function for LTexture Class //////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -202,7 +203,7 @@ void LButton::handleEvent( SDL_Event* e, const int& a, const int& b, int& mouseE
 
 void LButton::render()
 {
-    if (mCurrentSprite == 0 )
+    if (mCurrentSprite == 0 || boxS[orderButton].numStone == 0)
     {
         return;
     }
@@ -247,6 +248,8 @@ void initGraphic()
             gButtonsRight[i].orderButton = i;
         }
     }
+    bigStone.w = 60;
+    bigStone.h = 60;
     gWindow = SDL_CreateWindow( "O An Quan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
     gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
     SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
@@ -270,6 +273,7 @@ void initGraphic()
     gHand = loadTexture("hand.png");
     gLeftArrow = loadTexture("leftArrow.png");
     gRightArrow = loadTexture("rightArrow.png");
+    gBigStone = loadTexture("bigStone.png");
     
     /////////////////// TTF library /////////////////////
     gFont = TTF_OpenFont( "font.ttf", 28 );
@@ -362,20 +366,34 @@ void moveHandTo (int orderBoxDestination) {
     SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
 }
 
+void showBigStone()
+{
+    if (gBigStoneExist[0]) {
+        bigStone.x = boxS[11].boxSRect.x + 50;
+        bigStone.y = boxS[11].boxSRect.y;
+        SDL_RenderCopy(gRenderer, gBigStone, NULL, &bigStone);
+    }
+    if (gBigStoneExist[1]) {
+        bigStone.x = boxS[5].boxSRect.x + 50;
+        bigStone.y = boxS[5].boxSRect.y;
+        SDL_RenderCopy(gRenderer, gBigStone, NULL, &bigStone);
+    }
+}
 ////////////// total showing function ////////////////
 void showGraphic() {
     //moveHand(handPos);
     SDL_RenderClear( gRenderer);
     SDL_RenderCopy( gRenderer, gTable, NULL, NULL);
+    showBigStone();
     updateNumStone();
     updateScore();
     showStone(stone);
-    gTextTexture.render(100, 675);
+    gTextTexture.render(130, 675);
     for (int i = 0; i < 12; i ++)
     {
         gNumStoneText[i].render(boxS[i].boxSRect.x + 110, boxS[i].boxSRect.y + 110);
     }
     gScoreFirstText.render(boxP1.boxSRect.x, boxP1.boxSRect.y);
     gScoreSecondText.render(boxP2.boxSRect.x, boxP2.boxSRect.y);
-
+    
 }

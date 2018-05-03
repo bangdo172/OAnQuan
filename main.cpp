@@ -37,12 +37,14 @@ SDL_Rect handPos;
 SDL_Rect stone;
 SDL_Rect rightArrow;
 SDL_Rect leftArrow;
+SDL_Rect bigStone;
 SDL_Event e;
 
 box boxS[12];
 box boxP1;
 box boxP2;
 int gTurn = 0;
+bool gBigStoneExist[2] = {true, true};
 
 
 int main (int argc, char* argv[]) {

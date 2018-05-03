@@ -73,7 +73,7 @@ void performancedTurn (int order, bool left) {
     do
     {
         order = nextBox(order, left);
-        if (boxS[order].numStone == 0)
+        if (boxS[order].numStone == 0 && boxS[order + 1].numStone != 0)
         {
             order = nextBox(order, left);
             if (gTurn % 2)
@@ -84,7 +84,26 @@ void performancedTurn (int order, bool left) {
             {
                 boxP1.numStone += boxS[order].numStone;
             }
+            
             boxS[order].numStone = 0;
+            if ((order == 11) && gBigStoneExist[0]) {
+                if (gTurn % 2 == 0) {
+                    boxP1.numStone += 10;
+                }
+                else {
+                    boxP2.numStone += 10;
+                }
+                gBigStoneExist[0] = false;
+            }
+            if ((order == 5) && gBigStoneExist[1]) {
+                if (gTurn % 2 == 0) {
+                    boxP1.numStone += 10;
+                }
+                else {
+                    boxP2.numStone += 10;
+                }
+                gBigStoneExist[1] = false;
+            }
             take = true;
         }
         else
@@ -100,8 +119,6 @@ void performancedTurn (int order, bool left) {
     }
     
     
-
-
 }
 
 void chooseBoxAndDirection (int mouseEvent) {
@@ -112,9 +129,7 @@ void chooseBoxAndDirection (int mouseEvent) {
         
     }
 }
-void moveStone() {
-    
-}
+
 void distributeStone() {
     
 }
@@ -150,10 +165,7 @@ void gameLoop() {
             gameOver();
         }
         else {
-            chooseBoxAndDirection(mouseEvent);
-            //bool left = false;
-            //performancedTurn(boxS[3], left);
-            moveStone();
+            
             distributeStone();
         }
         //////////////////////////////////////
@@ -176,8 +188,8 @@ void gameLoop() {
                 
             }
         }
-        showGraphic();
-        // render text "game o an quan"; gTextTexture.render(posX of Destination, posY of Destination)
+        
+        showGraphic();    
         
         ///render buttons
         for( int i = gTurn % 2 * 5; i < gTurn % 2 * 5 + 5; ++i )
@@ -185,8 +197,8 @@ void gameLoop() {
             gButtonsLeft[ i ].render();
             gButtonsRight[ i ].render();
         }
-        SDL_RenderPresent( gRenderer );
         
+        SDL_RenderPresent( gRenderer );
     }
     close();
 }
