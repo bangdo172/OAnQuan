@@ -14,8 +14,8 @@ void initBox () {
     for (int i = 5; i < 11; i ++) {
         boxS[i].numStone = 5;
     }
-    boxS[5].numStone = 5;
-    boxS[11].numStone = 5;
+    boxS[5].numStone = 0;
+    boxS[11].numStone = 0;
      ////// row 1
     boxS[0].boxSRect.x = 265;
     boxS[0].boxSRect.y = 205;

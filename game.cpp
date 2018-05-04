@@ -56,7 +56,8 @@ int nextBox(int order, bool& left)
     return order;
 }
 void performancedTurn (int order, bool left) {
-    
+    // endGame
+    // dai dan // chua chay
     int quantity = boxS[order].numStone;
     boxS[order].numStone = 0;
     if (!quantity)
@@ -84,6 +85,7 @@ void performancedTurn (int order, bool left) {
         }
         while (true);
     }
+    
     bool take = false;
     do
     {
@@ -127,24 +129,15 @@ void performancedTurn (int order, bool left) {
         }
     }
     while (true);
+    
+    
     if (!take && boxS[order].numStone != 0 && order != 5 && order != 11)
     {
         //SDL_Delay(5000);
         performancedTurn(order, left);
     }
     
-    if (boxS[0].numStone == 0 && boxS[1].numStone == 0 && boxS[2].numStone == 0 && boxS[3].numStone && boxS[4].numStone == 0) {
-        for (int i = 0; i < 5; i ++) {
-            boxS[i].numStone ++;
-        }
-        boxP1.numStone -= 5;
-    }
-    if (boxS[6].numStone == 0 && boxS[7].numStone == 0 && boxS[8].numStone == 0 && boxS[9].numStone && boxS[10].numStone == 0) {
-        for (int i = 6; i < 11; i ++) {
-            boxS[i].numStone ++;
-        }
-        boxP1.numStone -= 5;
-    }
+    
 }
 
 void chooseBoxAndDirection (int mouseEvent) {
@@ -157,10 +150,36 @@ void chooseBoxAndDirection (int mouseEvent) {
 }
 
 void distributeStone() {
-    
+    if ((gTurn % 2 == 0 ) &&(boxS[0].numStone == 0) && (boxS[1].numStone == 0) && (boxS[2].numStone == 0) && (boxS[3].numStone == 0) && (boxS[4].numStone == 0)) {
+        for (int i = 0; i < 5; i ++) {
+            boxS[i].numStone ++;
+        }
+        boxP1.numStone -= 5;
+    }
+    if ((gTurn % 2 == 1) && (boxS[6].numStone == 0) && (boxS[7].numStone == 0) && (boxS[8].numStone == 0) && (boxS[9].numStone == 0) && (boxS[10].numStone == 0)) {
+        for (int i = 6; i < 11; i ++) {
+            boxS[i].numStone ++;
+        }
+        boxP2.numStone -= 5;
+    }
 }
 void gameOver() {
     
+    for (int i = 0; i < 12; i ++) {
+        if (i < 6) {
+            boxP1.numStone += boxS[i].numStone;
+        }
+        else {
+            boxP2.numStone += boxS[i].numStone;
+        }
+        boxS[i].numStone = 0;
+    }
+    SDL_RenderClear( gRenderer);
+    SDL_RenderCopy(gRenderer, gEndGameBG, NULL, NULL);
+    gFont = TTF_OpenFont( "font.ttf", 100 );
+    gTextTexture.loadFromRenderedText( ((boxP1.numStone == boxP2.numStone) ? ("2 PLAYERS DRAW!") : ((boxP1.numStone > boxP2.numStone) ? ("Player 1 WIN!") : ("Player 2 WIN!")) ) , textColor ) ;
+    gTextTexture.render(325, 250);
+    SDL_RenderPresent(gRenderer);
 }
 void gameLoop() {
     ////////INIT FOR GAME LOOP////////
@@ -173,33 +192,27 @@ void gameLoop() {
     /////////////////////////////////////////////////////
     //////////           GAME LOOP           ////////////
     /////////////////////////////////////////////////////
-    while ((!gEndGame) && (!quit)) {
+    //
+    while ( (!quit)) {
         if (gTurn % 2 == 0) {
             gTurnFirstPerson = false;
         }
         else {
             gTurnFirstPerson = true;
         }
-        
+        distributeStone();
 
         ///////////////////////////////////////
         /////// logic game written here ///////
         ///////////////////////////////////////
         
         
-        if (gEndGame) {
-            gameOver();
-        }
-        else {
-            
-            distributeStone();
-        }
         //////////////////////////////////////
         /////// SDL library used here ////////
         //////////////////////////////////////
         ////////INIT FOR SDL////////
         
-        while( SDL_PollEvent( &e ) != 0 )
+        while(( SDL_PollEvent( &e ) != 0 ) && (!gEndGame))
         {
             if( e.type == SDL_QUIT )
             {
@@ -223,6 +236,14 @@ void gameLoop() {
             gButtonsRight[ i ].render();
         }
         SDL_RenderPresent( gRenderer );
+        
+        if ((boxS[5].numStone == 0 && boxS[11].numStone == 0) || boxP1.numStone < 0 || boxP2.numStone < 0) {
+            gameOver();
+            SDL_Delay(10000);
+            quit = true;
+        }
+
+        
     }
     close();
 }

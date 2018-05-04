@@ -276,14 +276,12 @@ void initGraphic()
     gLeftArrow = loadTexture("leftArrow.png");
     gRightArrow = loadTexture("rightArrow.png");
     gBigStone = loadTexture("bigStone.png");
-    
+    gEndGameBG = loadTexture("endGame.png");
     /////////////////// TTF library /////////////////////
     gFont = TTF_OpenFont( "font.ttf", 28 );
     
     gTextTexture.loadFromRenderedText( "Game O an quan", textColor ) ;
     
-    ///////// Text for number of Stone each Box /////////
-
     ///////////////// Buttons Position //////////////////
     
     for (int i = 0; i < 5; i ++) {

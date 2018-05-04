@@ -17,6 +17,7 @@ SDL_Texture* gBigStone = NULL;
 SDL_Texture* gHand = NULL;
 SDL_Texture* gRightArrow = NULL;
 SDL_Texture* gLeftArrow = NULL;
+SDL_Texture* gEndGameBG = NULL;
 
 TTF_Font *gFont = NULL;
 SDL_Color textColor = { 0, 0, 0 };

@@ -44,6 +44,7 @@ extern SDL_Texture* gBigStone;
 extern SDL_Texture* gHand;
 extern SDL_Texture* gRightArrow;
 extern SDL_Texture* gLeftArrow;
+extern SDL_Texture* gEndGameBG;
 
 extern TTF_Font* gFont;
 
