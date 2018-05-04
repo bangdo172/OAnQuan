@@ -69,19 +69,29 @@ void performancedTurn (int order, bool left) {
         handPos.x = boxS[order].boxSRect.x;
         handPos.y = boxS[order].boxSRect.y;
         int nextB = nextBox(order, left);
+        // show close hand
+        showGraphic();
+        SDL_RenderCopy(gRenderer, gHand1, NULL, &handPos);
+        SDL_RenderPresent( gRenderer );
+        SDL_Delay(100);
+        
+        // move close hand
         do
         {
             showGraphic();
             if (moveHandTo(order, nextB))
             {
+                // show open hand
                 order = nextB;
                 boxS[order].numStone++;
                 showGraphic();
-                SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
+                SDL_RenderCopy(gRenderer, gHand2, NULL, &handPos);
                 SDL_RenderPresent( gRenderer );
+                SDL_Delay(50);
                 break;
             }
             SDL_RenderPresent( gRenderer );
+            SDL_Delay(10);
         }
         while (true);
     }
@@ -193,24 +203,15 @@ void gameLoop() {
     //////////           GAME LOOP           ////////////
     /////////////////////////////////////////////////////
     //
+    
     while ( (!quit)) {
-        if (gTurn % 2 == 0) {
-            gTurnFirstPerson = false;
-        }
-        else {
-            gTurnFirstPerson = true;
-        }
         distributeStone();
-
-        ///////////////////////////////////////
-        /////// logic game written here ///////
-        ///////////////////////////////////////
         
-        
-        //////////////////////////////////////
-        /////// SDL library used here ////////
-        //////////////////////////////////////
-        ////////INIT FOR SDL////////
+        if ( ((boxS[5].numStone == 0 && boxS[11].numStone == 0) || boxP1.numStone < 0 || boxP2.numStone < 0) && !(gBigStoneExist[0] || gBigStoneExist[1]) ) {
+            gameOver();
+            SDL_Delay(10000);
+            break;
+        }
         
         while(( SDL_PollEvent( &e ) != 0 ) && (!gEndGame))
         {
@@ -237,11 +238,7 @@ void gameLoop() {
         }
         SDL_RenderPresent( gRenderer );
         
-        if ((boxS[5].numStone == 0 && boxS[11].numStone == 0) || boxP1.numStone < 0 || boxP2.numStone < 0) {
-            gameOver();
-            SDL_Delay(10000);
-            quit = true;
-        }
+        
 
         
     }

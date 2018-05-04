@@ -14,7 +14,8 @@ SDL_Texture** gStoneTable = NULL;
 
 SDL_Texture* gTable = NULL;
 SDL_Texture* gBigStone = NULL;
-SDL_Texture* gHand = NULL;
+SDL_Texture* gHand1 = NULL;
+SDL_Texture* gHand2 = NULL;
 SDL_Texture* gRightArrow = NULL;
 SDL_Texture* gLeftArrow = NULL;
 SDL_Texture* gEndGameBG = NULL;

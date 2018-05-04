@@ -272,7 +272,8 @@ void initGraphic()
     
     
     gTable = loadTexture( "table.png" );
-    gHand = loadTexture("hand.png");
+    gHand1 = loadTexture("hand1.png");
+    gHand2 = loadTexture("hand2.png");
     gLeftArrow = loadTexture("leftArrow.png");
     gRightArrow = loadTexture("rightArrow.png");
     gBigStone = loadTexture("bigStone.png");
@@ -332,11 +333,11 @@ SDL_Texture* loadTexture( std::string path )
 //////////// show Stone /////////////
 
 void showStone(SDL_Rect stone) {
+    stone.w = 130;
+    stone.h = 130;
     for (int i = 0; i < 12; i ++) {
         stone.x = boxS[i].boxSRect.x;
         stone.y = boxS[i].boxSRect.y;
-        stone.w = 130;
-        stone.h = 130;
         for (int j = 0; j < 22; j ++) {
             if (boxS[i].numStone == j) {
                 SDL_RenderCopy(gRenderer, gStoneTable[j], NULL, &stone);
@@ -346,12 +347,31 @@ void showStone(SDL_Rect stone) {
             SDL_RenderCopy(gRenderer, gStoneTable[21], NULL, &stone);
         }
     }
+    
+    stone.x = boxP1.boxSRect.x;
+    stone.y = boxP1.boxSRect.y;
+    for (int j = 0; j < 22; j ++) {
+        if (boxP1.numStone == j) {
+            SDL_RenderCopy(gRenderer, gStoneTable[j], NULL, &stone);
+        }
+    }
+    if (boxP1.numStone >= 21) {
+        SDL_RenderCopy(gRenderer, gStoneTable[21], NULL, &stone);
+    }
+    stone.x = boxP2.boxSRect.x;
+    stone.y = boxP2.boxSRect.y;
+    for (int j = 0; j < 22; j ++) {
+        if (boxP2.numStone == j) {
+            SDL_RenderCopy(gRenderer, gStoneTable[j], NULL, &stone);
+        }
+    }
+    if (boxP2.numStone >= 21) {
+        SDL_RenderCopy(gRenderer, gStoneTable[21], NULL, &stone);
+    }
 }
 
 //////////// show Hand //////////////
 bool moveHandTo (int currentBoxOrder, int orderBoxDestination) {
-    //int deltaX = (boxS[orderBoxDestination].boxSRect.x - boxS[currentBoxOrder].boxSRect.x) / 4;
-    //int deltaY = (boxS[orderBoxDestination].boxSRect.y - boxS[currentBoxOrder].boxSRect.y) / 4;
     // render copy (,,position at source picture, position of destination)
     if (handPos.x != boxS[orderBoxDestination].boxSRect.x && boxS[orderBoxDestination].boxSRect.x != boxS[currentBoxOrder].boxSRect.x) {
         (boxS[orderBoxDestination].boxSRect.x > boxS[currentBoxOrder].boxSRect.x) ? (handPos.x += 5) : (handPos.x -= 5);
@@ -360,7 +380,7 @@ bool moveHandTo (int currentBoxOrder, int orderBoxDestination) {
     {
         (boxS[orderBoxDestination].boxSRect.y > boxS[currentBoxOrder].boxSRect.y) ? (handPos.y += 5) : (handPos.y -= 5);
     }
-    SDL_RenderCopy(gRenderer, gHand, NULL, &handPos);
+    SDL_RenderCopy(gRenderer, gHand1, NULL, &handPos);
     if (handPos.x == boxS[orderBoxDestination].boxSRect.x  && handPos.y == boxS[orderBoxDestination].boxSRect.y)
     {
         return true;
@@ -393,12 +413,12 @@ void showGraphic() {
     updateNumStone();
     updateScore();
     showStone(stone);
-    gTextTexture.render(130, 675);
+    gTextTexture.render(90, 675);
     for (int i = 0; i < 12; i ++)
     {
         gNumStoneText[i].render(boxS[i].boxSRect.x + 110, boxS[i].boxSRect.y + 110);
     }
-    gScoreFirstText.render(boxP1.boxSRect.x, boxP1.boxSRect.y);
-    gScoreSecondText.render(boxP2.boxSRect.x, boxP2.boxSRect.y);
+    gScoreFirstText.render(boxP1.boxSRect.x + 160, boxP1.boxSRect.y + 95);
+    gScoreSecondText.render(boxP2.boxSRect.x + 160, boxP2.boxSRect.y + 95);
     
 }

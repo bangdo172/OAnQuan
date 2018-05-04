@@ -41,7 +41,8 @@ extern SDL_Renderer* gRenderer;
 
 extern SDL_Texture* gTable;
 extern SDL_Texture* gBigStone;
-extern SDL_Texture* gHand;
+extern SDL_Texture* gHand1;
+extern SDL_Texture* gHand2;
 extern SDL_Texture* gRightArrow;
 extern SDL_Texture* gLeftArrow;
 extern SDL_Texture* gEndGameBG;

@@ -46,14 +46,14 @@ void initBox () {
     boxS[11].boxSRect.y = 270;
     
     // box P1
-    boxP1.boxSRect.x = 730;
-    boxP1.boxSRect.y = 100;
+    boxP1.boxSRect.x = 560;
+    boxP1.boxSRect.y = 35;
     boxP1.numStone = 0;
     boxP1.order = 12;
 
     // box P2
-    boxP2.boxSRect.x = 730;
-    boxP2.boxSRect.y = 600;
+    boxP2.boxSRect.x = 560;
+    boxP2.boxSRect.y = 540;
     boxP2.numStone = 0;
     boxP2.order = 12;
 }
