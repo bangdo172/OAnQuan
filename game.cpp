@@ -186,10 +186,11 @@ void gameOver() {
     }
     SDL_RenderClear( gRenderer);
     SDL_RenderCopy(gRenderer, gEndGameBG, NULL, NULL);
-    gFont = TTF_OpenFont( "font.ttf", 100 );
+    gFont = TTF_OpenFont( "font.ttf", 70 );
     gTextTexture.loadFromRenderedText( ((boxP1.numStone == boxP2.numStone) ? ("2 PLAYERS DRAW!") : ((boxP1.numStone > boxP2.numStone) ? ("Player 1 WIN!") : ("Player 2 WIN!")) ) , textColor ) ;
-    gTextTexture.render(325, 250);
+    gTextTexture.render(250, 250);
     SDL_RenderPresent(gRenderer);
+    SDL_Delay(10000);
 }
 void gameLoop() {
     ////////INIT FOR GAME LOOP////////
@@ -203,13 +204,12 @@ void gameLoop() {
     //////////           GAME LOOP           ////////////
     /////////////////////////////////////////////////////
     //
-    
     while ( (!quit)) {
         distributeStone();
         
         if ( ((boxS[5].numStone == 0 && boxS[11].numStone == 0) || boxP1.numStone < 0 || boxP2.numStone < 0) && !(gBigStoneExist[0] || gBigStoneExist[1]) ) {
             gameOver();
-            SDL_Delay(10000);
+            
             break;
         }
         

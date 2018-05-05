@@ -50,7 +50,6 @@ bool gBigStoneExist[2] = {true, true};
 
 
 int main (int argc, char* argv[]) {
-    
     gameLoop();
     return 0;
 }
