@@ -143,7 +143,6 @@ void performancedTurn (int order, bool left) {
     
     if (!take && boxS[order].numStone != 0 && order != 5 && order != 11)
     {
-        //SDL_Delay(5000);
         performancedTurn(order, left);
     }
     
@@ -201,10 +200,6 @@ void gameLoop() {
     bool quit = false;
     initGraphic();
     
-    /////////////////////////////////////////////////////
-    //////////           GAME LOOP           ////////////
-    /////////////////////////////////////////////////////
-    //
     while ( (!quit)) {
         distributeStone();
         
@@ -231,12 +226,8 @@ void gameLoop() {
         }
         showGraphic();
         
-        ///render buttons
-        for( int i = gTurn % 2 * 5; i < gTurn % 2 * 5 + 5; ++i )
-        {
-            gButtonsLeft[ i ].render();
-            gButtonsRight[ i ].render();
-        }
+        // render buttons
+        
         SDL_RenderPresent( gRenderer );
     }
     close();

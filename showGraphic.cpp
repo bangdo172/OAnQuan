@@ -404,6 +404,24 @@ void showBigStone()
         SDL_RenderCopy(gRenderer, gBigStone, NULL, &bigStone);
     }
 }
+
+void showNumStoneText() {
+    for (int i = 0; i < 12; i ++)
+    {
+        gNumStoneText[i].render(boxS[i].boxSRect.x + 110, boxS[i].boxSRect.y + 110);
+    }
+    gScoreFirstText.render(boxP1.boxSRect.x + 160, boxP1.boxSRect.y + 95);
+    gScoreSecondText.render(boxP2.boxSRect.x + 160, boxP2.boxSRect.y + 95);
+}
+
+void showButtons() {
+    for( int i = gTurn % 2 * 5; i < gTurn % 2 * 5 + 5; ++i )
+    {
+        gButtonsLeft[ i ].render();
+        gButtonsRight[ i ].render();
+    }
+}
+
 ////////////// total showing function ////////////////
 void showGraphic() {
     //moveHand(handPos);
@@ -414,11 +432,6 @@ void showGraphic() {
     updateScore();
     showStone(stone);
     gTextTexture.render(90, 675);
-    for (int i = 0; i < 12; i ++)
-    {
-        gNumStoneText[i].render(boxS[i].boxSRect.x + 110, boxS[i].boxSRect.y + 110);
-    }
-    gScoreFirstText.render(boxP1.boxSRect.x + 160, boxP1.boxSRect.y + 95);
-    gScoreSecondText.render(boxP2.boxSRect.x + 160, boxP2.boxSRect.y + 95);
-    
+    showNumStoneText();
+    showButtons();
 }
