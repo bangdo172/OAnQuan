@@ -55,9 +55,9 @@ int nextBox(int order, bool& left)
     }
     return order;
 }
+
 void performancedTurn (int order, bool left) {
-    // endGame
-    // dai dan // chua chay
+
     int quantity = boxS[order].numStone;
     boxS[order].numStone = 0;
     if (!quantity)
@@ -173,6 +173,7 @@ void distributeStone() {
         boxP2.numStone -= 5;
     }
 }
+
 void gameOver() {
     
     for (int i = 0; i < 12; i ++) {
@@ -188,7 +189,7 @@ void gameOver() {
     SDL_RenderCopy(gRenderer, gEndGameBG, NULL, NULL);
     gFont = TTF_OpenFont( "font.ttf", 70 );
     gTextTexture.loadFromRenderedText( ((boxP1.numStone == boxP2.numStone) ? ("2 PLAYERS DRAW!") : ((boxP1.numStone > boxP2.numStone) ? ("Player 1 WIN!") : ("Player 2 WIN!")) ) , textColor ) ;
-    gTextTexture.render(250, 250);
+    gTextTexture.render(275, 275);
     SDL_RenderPresent(gRenderer);
     SDL_Delay(10000);
 }
@@ -199,7 +200,7 @@ void gameLoop() {
     int mouseEvent = 0;
     bool quit = false;
     initGraphic();
-    //loadMedia();
+    
     /////////////////////////////////////////////////////
     //////////           GAME LOOP           ////////////
     /////////////////////////////////////////////////////
@@ -228,7 +229,7 @@ void gameLoop() {
                 
             }
         }
-        showGraphic();   // 1
+        showGraphic();
         
         ///render buttons
         for( int i = gTurn % 2 * 5; i < gTurn % 2 * 5 + 5; ++i )
@@ -237,10 +238,6 @@ void gameLoop() {
             gButtonsRight[ i ].render();
         }
         SDL_RenderPresent( gRenderer );
-        
-        
-
-        
     }
     close();
 }
