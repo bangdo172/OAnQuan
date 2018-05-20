@@ -3,11 +3,13 @@
 //
 
 #include "box.hpp"
-
+// init Box
 void initBox () {
+    // init box order
     for (int i = 0; i < 12; i ++) {
         boxS[i].order = i;
     }
+    // init number of stone of each box
     for (int i = 0; i < 5; i ++) {
         boxS[i].numStone = 5;
     }
@@ -16,7 +18,10 @@ void initBox () {
     }
     boxS[5].numStone = 0;
     boxS[11].numStone = 0;
-     ////// row 1
+    
+    // init position of each box //
+    
+    ////// row 1
     boxS[0].boxSRect.x = 265;
     boxS[0].boxSRect.y = 205;
     boxS[1].boxSRect.x = 425;

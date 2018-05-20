@@ -12,8 +12,6 @@
 #include "showGraphic.hpp"
 #include "box.hpp"
 
-
-
 void gameLoop();
 
 #endif /* game_hpp */

@@ -7,8 +7,8 @@
 
 #include <stdio.h>
 #include "showGraphic.hpp"
-// class of small box
 
+// struct of box
 struct box {
 public:
     SDL_Rect boxSRect;
@@ -16,10 +16,13 @@ public:
     int order;
 };
 
+// box on the table
 extern box boxS[12];
-
+// box of player 1
 extern box boxP1;
+// box of player 2
 extern box boxP2;
-
+// init Box
 void initBox();
+
 #endif /* box_hpp */

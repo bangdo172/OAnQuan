@@ -4,11 +4,13 @@
 
 #include "game.hpp"
 
+// declare variable
 bool gEndGame;
 bool gTurnFirstPerson;
 int gFirstPlayerScore = 0;
 int gSecondPlayerScore = 0;
 
+/////////////// find the next box position //////////////
 int nextBox(int order, bool& left)
 {
     if (left)
@@ -56,10 +58,13 @@ int nextBox(int order, bool& left)
     return order;
 }
 
+///////////// performance turn of each player ///////////////
 void performancedTurn (int order, bool left) {
-
+    
+    // take stone and distribute
     int quantity = boxS[order].numStone;
     boxS[order].numStone = 0;
+    
     if (!quantity)
     {
         return;
@@ -69,6 +74,7 @@ void performancedTurn (int order, bool left) {
         handPos.x = boxS[order].boxSRect.x;
         handPos.y = boxS[order].boxSRect.y;
         int nextB = nextBox(order, left);
+        
         // show close hand
         showGraphic();
         SDL_RenderCopy(gRenderer, gHand1, NULL, &handPos);
@@ -96,6 +102,7 @@ void performancedTurn (int order, bool left) {
         while (true);
     }
     
+    // take stone
     bool take = false;
     do
     {
@@ -140,7 +147,7 @@ void performancedTurn (int order, bool left) {
     }
     while (true);
     
-    
+    // recur
     if (!take && boxS[order].numStone != 0 && order != 5 && order != 11)
     {
         performancedTurn(order, left);
@@ -149,15 +156,7 @@ void performancedTurn (int order, bool left) {
     
 }
 
-void chooseBoxAndDirection (int mouseEvent) {
-    if (mouseEvent == 1) {
-        
-    }
-    else if (mouseEvent == 2) {
-        
-    }
-}
-
+//////////// distribute stone when empty /////////////
 void distributeStone() {
     if ((gTurn % 2 == 0 ) &&(boxS[0].numStone == 0) && (boxS[1].numStone == 0) && (boxS[2].numStone == 0) && (boxS[3].numStone == 0) && (boxS[4].numStone == 0)) {
         for (int i = 0; i < 5; i ++) {
@@ -173,8 +172,8 @@ void distributeStone() {
     }
 }
 
+////////////////// game over //////////////////
 void gameOver() {
-    
     for (int i = 0; i < 12; i ++) {
         if (i < 6) {
             boxP1.numStone += boxS[i].numStone;
@@ -192,8 +191,11 @@ void gameOver() {
     SDL_RenderPresent(gRenderer);
     SDL_Delay(10000);
 }
+
+////////////////// game loop //////////////////
 void gameLoop() {
-    ////////INIT FOR GAME LOOP////////
+    
+    //////// INIT FOR GAME LOOP ///////
     gEndGame = false;
     gTurnFirstPerson = true;
     int mouseEvent = 0;
@@ -202,7 +204,6 @@ void gameLoop() {
     
     while ( (!quit)) {
         distributeStone();
-        
         if ( ((boxS[5].numStone == 0 && boxS[11].numStone == 0) || boxP1.numStone < 0 || boxP2.numStone < 0) && !(gBigStoneExist[0] || gBigStoneExist[1]) ) {
             gameOver();
             
@@ -225,9 +226,6 @@ void gameLoop() {
             }
         }
         showGraphic();
-        
-        // render buttons
-        
         SDL_RenderPresent( gRenderer );
     }
     close();

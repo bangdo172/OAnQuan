@@ -3,8 +3,7 @@
 //
 
 #include "showGraphic.hpp"
-
-
+// update the number of stone
 void updateNumStone()
 {
     for (int i = 0; i < 12; i ++) {
@@ -16,6 +15,7 @@ void updateNumStone()
         gNumStoneText[i].loadFromRenderedText(strNumOfStone, textColor);
     }
 }
+// update the number of score
 void updateScore() {
     std::string strScoreFirst;
     std::stringstream temp1;
@@ -33,6 +33,7 @@ void updateScore() {
 //////////////////////////////// function for LTexture Class //////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+// constructor
 LTexture::LTexture()
 {
     mTexture = NULL;
@@ -40,11 +41,13 @@ LTexture::LTexture()
     mHeight = 0;
 }
 
+// destructor
 LTexture::~LTexture()
 {
     free();
 }
 
+// load media
 bool LTexture::loadFromFile( std::string path )
 {
     free();
@@ -52,6 +55,7 @@ bool LTexture::loadFromFile( std::string path )
     SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
     SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0, 0xFF, 0xFF ) );
     newTexture = SDL_CreateTextureFromSurface( gRenderer, loadedSurface );
+    
     //Get image dimensions
     mWidth = loadedSurface->w;
     mHeight = loadedSurface->h;
@@ -126,6 +130,8 @@ int LTexture::getHeight()
 ///////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////// LButton ////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////
+
+
 LButton::LButton()
 {
     mPosition.x = 500;
@@ -140,6 +146,7 @@ void LButton::setPosition( int x, int y )
     mPosition.y = y;
 }
 
+// handle event
 void LButton::handleEvent( SDL_Event* e, const int& a, const int& b, int& mouseEvent )
 {
     if( e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN)
@@ -201,6 +208,7 @@ void LButton::handleEvent( SDL_Event* e, const int& a, const int& b, int& mouseE
     }
 }
 
+// render buttons
 void LButton::render()
 {
     if (mCurrentSprite == 0 || boxS[orderButton].numStone == 0)
@@ -227,6 +235,8 @@ void LButton::render()
 /////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////// Init Function /////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
+
+// init graphic
 void initGraphic()
 {
     gStoneTable = new SDL_Texture*[22];
@@ -296,6 +306,7 @@ void initGraphic()
 
 }
 
+// close
 void close()
 {
     gTextTexture.free();
@@ -331,7 +342,6 @@ SDL_Texture* loadTexture( std::string path )
 //////////////////////////////////////////////////////////////////
 
 //////////// show Stone /////////////
-
 void showStone(SDL_Rect stone) {
     stone.w = 130;
     stone.h = 130;
@@ -391,6 +401,7 @@ bool moveHandTo (int currentBoxOrder, int orderBoxDestination) {
     }
 }
 
+/////////// show big stone ///////////
 void showBigStone()
 {
     if (gBigStoneExist[0]) {
@@ -404,7 +415,7 @@ void showBigStone()
         SDL_RenderCopy(gRenderer, gBigStone, NULL, &bigStone);
     }
 }
-
+/////////// show text of the number of stone ////////////
 void showNumStoneText() {
     for (int i = 0; i < 12; i ++)
     {
@@ -414,6 +425,7 @@ void showNumStoneText() {
     gScoreSecondText.render(boxP2.boxSRect.x + 160, boxP2.boxSRect.y + 95);
 }
 
+//////////////// show buttons /////////////////
 void showButtons() {
     for( int i = gTurn % 2 * 5; i < gTurn % 2 * 5 + 5; ++i )
     {
@@ -424,7 +436,6 @@ void showButtons() {
 
 ////////////// total showing function ////////////////
 void showGraphic() {
-    //moveHand(handPos);
     SDL_RenderClear( gRenderer);
     SDL_RenderCopy( gRenderer, gTable, NULL, NULL);
     showBigStone();

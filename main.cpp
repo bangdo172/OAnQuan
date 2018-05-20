@@ -6,7 +6,6 @@
 #include "box.hpp"
 #include "showGraphic.hpp"
 
-
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
 
@@ -47,7 +46,6 @@ box boxP1;
 box boxP2;
 int gTurn = 0;
 bool gBigStoneExist[2] = {true, true};
-
 
 int main (int argc, char* argv[]) {
     gameLoop();

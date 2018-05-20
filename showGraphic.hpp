@@ -19,10 +19,6 @@
 #include <string>
 #include <sstream>
 
-/////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////// Khai bao bien //////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////
-
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 #define POSX1 100
@@ -30,15 +26,18 @@
 #define BOXHEIGHT 100
 #define BOXWIDTH 100
 
+/////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// Declare variable ////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+
+// buttons
 const int BUTTON_WIDTH = BOXWIDTH/2;
 const int BUTTON_HEIGHT = BOXWIDTH;
 const int TOTAL_BUTTONS = 10;
 
-
+// variable from main.cpp
 extern SDL_Window* gWindow;
 extern SDL_Renderer* gRenderer;
-
-
 extern SDL_Texture* gTable;
 extern SDL_Texture* gBigStone;
 extern SDL_Texture* gHand1;
@@ -46,9 +45,7 @@ extern SDL_Texture* gHand2;
 extern SDL_Texture* gRightArrow;
 extern SDL_Texture* gLeftArrow;
 extern SDL_Texture* gEndGameBG;
-
 extern TTF_Font* gFont;
-
 extern SDL_Texture** gStoneTable;
 extern SDL_Rect rightArrow;
 extern SDL_Rect leftArrow;
@@ -60,6 +57,7 @@ extern void performancedTurn(int order, bool left);
 extern SDL_Color textColor;
 extern int gTurn;
 extern bool gBigStoneExist[2];
+
 /////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////// Function /////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +83,6 @@ enum LButtonSprite
 //////////////////////////////// Class Texture //////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
 
-
 //Texture wrapper class
 class LTexture
 {
@@ -106,7 +103,6 @@ public:
     //Gets image dimensions
     int getWidth();
     int getHeight();
-    
 private:
     //The actual hardware texture
     SDL_Texture* mTexture;
@@ -132,6 +128,7 @@ private:
     LButtonSprite mCurrentSprite;
 };
 
+// variable from main.cpp
 extern SDL_Rect gSpriteClipsLeft[ BUTTON_SPRITE_TOTAL ];
 extern SDL_Rect gSpriteClipsRight[ BUTTON_SPRITE_TOTAL ];
 
